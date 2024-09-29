@@ -3,6 +3,7 @@ import Logo from "../shared/Logo";
 import ProfileAction from "./ProfileAction";
 import MainSearch from "./MainSearch";
 import { Button } from "../ui/button";
+import ThemeMode from "./ThemeMode";
 
 const TopBar = () => {
   return (
@@ -17,6 +18,7 @@ const TopBar = () => {
         <div className="flex justify-end gap-2 items-center">
           <Button>Login</Button>
           <Button variant={"secondary"}>Registration</Button>
+          <ThemeMode />
           <ProfileAction />
         </div>
       </div>
