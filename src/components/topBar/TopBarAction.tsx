@@ -15,7 +15,7 @@ const TopBarAction = () => {
       {user?.email ? (
         <>
           <ThemeMode />
-          <ProfileAction />
+          <ProfileAction username={user?.username} role={user?.role} />
         </>
       ) : (
         <>

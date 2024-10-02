@@ -11,6 +11,7 @@ const GetUserFromToken = () => {
   } else {
     return {
       email: "",
+      username: "",
       role: "",
       iat: null,
       exp: null,
