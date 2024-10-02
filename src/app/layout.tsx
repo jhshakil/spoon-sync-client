@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import TopBar from "@/components/topBar";
 import ThemeProvider from "@/provider/ThemeProvider";
+import ReduxProvider from "@/provider/ReduxProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,16 +30,19 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-rootBackground`}
+        suppressHydrationWarning={true}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TopBar />
-          <div className="container mx-auto px-2">{children}</div>
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TopBar />
+            <div className="container mx-auto px-2">{children}</div>
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

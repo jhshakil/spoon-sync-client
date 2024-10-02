@@ -14,13 +14,20 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-const persistConfig = {
-  key: "auth",
-  storage,
-};
-
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
+const persistedAuthReducer = persistReducer(
+  {
+    key: "auth",
+    storage,
+  },
+  authReducer
+);
+const persistedUserReducer = persistReducer(
+  {
+    key: "user",
+    storage,
+  },
+  userReducer
+);
 
 export const store = configureStore({
   reducer: {

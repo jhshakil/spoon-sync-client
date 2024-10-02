@@ -1,9 +1,9 @@
 import React from "react";
 import Logo from "../shared/Logo";
-import ProfileAction from "./ProfileAction";
 import MainSearch from "./MainSearch";
-import { Button } from "../ui/button";
-import ThemeMode from "./ThemeMode";
+import dynamic from "next/dynamic";
+
+const TopBarAction = dynamic(() => import("./TopBarAction"), { ssr: false });
 
 const TopBar = () => {
   return (
@@ -16,10 +16,7 @@ const TopBar = () => {
           <MainSearch />
         </div>
         <div className="flex justify-end gap-2 items-center">
-          <Button>Login</Button>
-          <Button variant={"secondary"}>Registration</Button>
-          <ThemeMode />
-          <ProfileAction />
+          <TopBarAction />
         </div>
       </div>
     </header>

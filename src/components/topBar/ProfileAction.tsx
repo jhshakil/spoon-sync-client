@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Cloud,
   CreditCard,
@@ -31,8 +33,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
 
 const ProfileAction = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -115,7 +121,7 @@ const ProfileAction = () => {
           <span>API</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => dispatch(logout())}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
