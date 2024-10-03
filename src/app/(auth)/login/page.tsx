@@ -25,13 +25,11 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hooks";
-import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
-import { verifyToken } from "@/lib/verifyToken";
-import { TUser } from "@/types/user.types";
-import { setUser } from "@/redux/features/auth/authSlice";
+import { useUserLogin } from "@/hooks/auth.hook";
+import { useUser } from "@/context/user.provider";
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -42,9 +40,12 @@ const FormSchema = z.object({
 
 const Page = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const { setIsLoading: userLoading } = useUser();
 
-  const [login] = useLoginMutation();
+  const redirect = searchParams.get("redirect");
+
+  const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -58,18 +59,22 @@ const Page = () => {
     const toastId = toast.loading("Logged in");
 
     try {
-      const res = await login(data).unwrap();
-
-      const user = verifyToken(res.token) as TUser;
-      dispatch(setUser({ user: user, token: res.token }));
-      toast.success("Logged Successful", { id: toastId, duration: 2000 });
-
-      router.push(`/`);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      handleUserLogin(data);
+      userLoading(true);
     } catch (err: any) {
       toast.error("Something went wrong", { id: toastId, duration: 2000 });
     }
   }
+
+  useEffect(() => {
+    if (!isPending && isSuccess) {
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        router.push("/");
+      }
+    }
+  }, [isPending, isSuccess]);
 
   return (
     <Card className="w-[500px] mx-auto my-8">

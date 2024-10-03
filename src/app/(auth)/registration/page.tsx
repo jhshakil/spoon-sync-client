@@ -27,15 +27,11 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import {
-  useLoginMutation,
-  useRegistrationMutation,
-} from "@/redux/features/auth/authApi";
-import { setUser } from "@/redux/features/auth/authSlice";
-import { TUser } from "@/types/user.types";
-import { verifyToken } from "@/lib/verifyToken";
+
+import { useUserRegistration } from "@/hooks/auth.hook";
+import { useEffect } from "react";
+import { useUser } from "@/context/user.provider";
 
 const FormSchema = z
   .object({
@@ -60,10 +56,13 @@ const FormSchema = z
 
 const Page = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const { setIsLoading: userLoading } = useUser();
 
-  const [registration] = useRegistrationMutation();
-  const [login] = useLoginMutation();
+  const {
+    mutate: handleUserRegistration,
+    isPending,
+    isSuccess,
+  } = useUserRegistration();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -80,25 +79,8 @@ const Page = () => {
     const toastId = toast.loading("Registration in");
 
     try {
-      const res = await registration(data).unwrap();
-
-      if (res.success === true) {
-        const userInfo = {
-          email: data.email,
-          password: data.password,
-        };
-
-        const res = await login(userInfo).unwrap();
-
-        const user = verifyToken(res.token) as TUser;
-        dispatch(setUser({ user: user, token: res.token }));
-        toast.success("Registration Successful", {
-          id: toastId,
-          duration: 2000,
-        });
-
-        router.push(`/`);
-      }
+      handleUserRegistration(data);
+      userLoading(true);
     } catch (err: any) {
       if (err?.data?.message === "already exist") {
         toast.error("User already exist", { id: toastId, duration: 2000 });
@@ -107,6 +89,12 @@ const Page = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (!isPending && isSuccess) {
+      router.push("/");
+    }
+  }, [isPending, isSuccess]);
 
   return (
     <Card className="w-[500px] mx-auto my-8">

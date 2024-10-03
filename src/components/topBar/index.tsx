@@ -1,9 +1,7 @@
 import React from "react";
 import Logo from "../shared/Logo";
 import MainSearch from "./MainSearch";
-import dynamic from "next/dynamic";
-
-const TopBarAction = dynamic(() => import("./TopBarAction"), { ssr: false });
+import TopBarAction from "./TopBarAction";
 
 const TopBar = () => {
   return (

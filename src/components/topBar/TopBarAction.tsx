@@ -1,14 +1,14 @@
 "use client";
 
-import GetUserFromToken from "@/lib/getUserFromToken";
-import { useRouter } from "next/navigation";
 import ThemeMode from "./ThemeMode";
-import { Button } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import ProfileAction from "./ProfileAction";
+import { useUser } from "@/context/user.provider";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const TopBarAction = () => {
-  const user = GetUserFromToken();
-  const router = useRouter();
+  const { user } = useUser();
 
   return (
     <>
@@ -19,13 +19,15 @@ const TopBarAction = () => {
         </>
       ) : (
         <>
-          <Button onClick={() => router.push("/login")}>Login</Button>
-          <Button
-            variant={"secondary"}
-            onClick={() => router.push("/registration")}
+          <Link href={"/login"} className={cn(buttonVariants())}>
+            Login
+          </Link>
+          <Link
+            href={"/registration"}
+            className={cn(buttonVariants({ variant: "secondary" }))}
           >
             Registration
-          </Button>
+          </Link>
           <ThemeMode />
         </>
       )}

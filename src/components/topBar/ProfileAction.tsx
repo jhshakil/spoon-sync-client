@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { logout } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { logout } from "@/services/AuthService";
+import { useUser } from "@/context/user.provider";
+import { protectedRoutes } from "@/constant";
 
 type Props = {
   username: string;
@@ -23,8 +24,19 @@ type Props = {
 };
 
 const ProfileAction = ({ username, role }: Props) => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const { setIsLoading: userLoading } = useUser();
+
+  const handleLogout = () => {
+    logout();
+    userLoading(true);
+
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push("/");
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -71,7 +83,7 @@ const ProfileAction = ({ username, role }: Props) => {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => dispatch(logout())}>
+        <DropdownMenuItem onClick={() => handleLogout()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
