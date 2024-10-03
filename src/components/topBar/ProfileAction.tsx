@@ -23,6 +23,27 @@ type Props = {
   role: string;
 };
 
+const userRoutes = [
+  {
+    name: "Profile",
+    path: "/user/profile",
+    icon: <User className="mr-2 h-4 w-4" />,
+  },
+  {
+    name: "Settings",
+    path: "/user/settings",
+    icon: <Settings className="mr-2 h-4 w-4" />,
+  },
+];
+
+const adminRoutes = [
+  {
+    name: "Dashboard",
+    path: "/admin/dashboard",
+    icon: <CreditCard className="mr-2 h-4 w-4" />,
+  },
+];
+
 const ProfileAction = ({ username, role }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -42,48 +63,34 @@ const ProfileAction = ({ username, role }: Props) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src="" alt="Profile" />
+          <AvatarFallback>SS</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>@{username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            onClick={() =>
-              role !== "user"
-                ? router.push(`/admin/${username}/profile`)
-                : router.push(`/${username}/profile`)
-            }
-          >
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() =>
-              role !== "user"
-                ? router.push(`/admin/${username}/dashboard`)
-                : router.push(`/${username}/dashboard`)
-            }
-          >
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() =>
-              role !== "user"
-                ? router.push(`/admin/${username}/settings`)
-                : router.push(`/${username}/settings`)
-            }
-          >
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
+          {(role === "admin" || role === "superAdmin"
+            ? adminRoutes
+            : userRoutes
+          )?.map((item) => (
+            <DropdownMenuItem
+              key={item.path}
+              onClick={() => router.push(item.path)}
+              className="cursor-pointer"
+            >
+              {item.icon}
+              <span>{item.name}</span>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleLogout()}>
+        <DropdownMenuItem
+          onClick={() => handleLogout()}
+          className="cursor-pointer"
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

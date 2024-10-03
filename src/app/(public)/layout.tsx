@@ -11,12 +11,15 @@ const Layout = ({
 }) => {
   return (
     <div className="flex justify-between gap-4 mt-5">
-      <div className="bg-background w-[280px] h-full">{leftSideBar}</div>
-      <ScrollArea className="h-[90vh] flex-1 px-3">
-        <div className="bg-background h-[200vh]">{children}</div>
+      <ScrollArea className="h-[90vh] w-[280px] px-3">
+        <div className="bg-background  w-full">{leftSideBar}</div>
       </ScrollArea>
-
-      <div className="bg-background w-[280px] h-full">{rightSideBar}</div>
+      <ScrollArea className="h-[90vh] flex-1 px-3">
+        <div className="bg-background">{children}</div>
+      </ScrollArea>
+      <ScrollArea className="h-[90vh] w-[280px] px-3">
+        <div className="bg-background  w-full">{rightSideBar}</div>
+      </ScrollArea>
     </div>
   );
 };
