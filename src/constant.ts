@@ -3,4 +3,6 @@ export const protectedRoutes = [
   "/user/:page*",
   "/admin",
   "/admin:page*",
+  "/login",
+  "/registration",
 ];

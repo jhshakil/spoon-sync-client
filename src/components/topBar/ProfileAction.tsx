@@ -21,6 +21,7 @@ import { protectedRoutes } from "@/constant";
 type Props = {
   username: string;
   role: string;
+  profileImage: string;
 };
 
 const userRoutes = [
@@ -44,7 +45,7 @@ const adminRoutes = [
   },
 ];
 
-const ProfileAction = ({ username, role }: Props) => {
+const ProfileAction = ({ username, role, profileImage }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -63,7 +64,11 @@ const ProfileAction = ({ username, role }: Props) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarImage src="" alt="Profile" />
+          <AvatarImage
+            src={profileImage}
+            alt="Profile"
+            className="object-cover"
+          />
           <AvatarFallback>SS</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

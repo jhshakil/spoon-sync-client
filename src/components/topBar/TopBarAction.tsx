@@ -3,19 +3,26 @@
 import ThemeMode from "./ThemeMode";
 import { buttonVariants } from "../ui/button";
 import ProfileAction from "./ProfileAction";
-import { useUser } from "@/context/user.provider";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const TopBarAction = () => {
-  const { user } = useUser();
+type Props = {
+  username: string;
+  role: string;
+  profileImage: string;
+};
 
+const TopBarAction = ({ username, role, profileImage }: Props) => {
   return (
     <>
-      {user?.email ? (
+      {username ? (
         <>
           <ThemeMode />
-          <ProfileAction username={user?.username} role={user?.role} />
+          <ProfileAction
+            username={username}
+            role={role}
+            profileImage={profileImage}
+          />
         </>
       ) : (
         <>

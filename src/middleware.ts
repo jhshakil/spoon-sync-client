@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getCurrentUser } from "./services/AuthService";
 
-const AuthRoutes = ["/login", "/register"];
+const AuthRoutes = ["/login", "/registration"];
 
 type Role = keyof typeof roleBaseRoutes;
 
 const roleBaseRoutes = {
-  USER: [/^\/user/],
-  ADMIN: [/^\/admin/],
+  user: [/^\/user/],
+  admin: [/^\/admin/],
 };
 
 export async function middleware(request: NextRequest) {
@@ -39,5 +39,12 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/user", "/user/:page*", "/admin", "/admin/:page*"],
+  matcher: [
+    "/user",
+    "/user/:page*",
+    "/admin",
+    "/admin/:page*",
+    "/login",
+    "/registration",
+  ],
 };

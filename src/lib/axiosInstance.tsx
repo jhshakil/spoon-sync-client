@@ -7,8 +7,6 @@ const axiosInstance = axios.create({
   baseURL: envConfig.baseUrl,
 });
 
-console.log(envConfig.baseUrl);
-
 axiosInstance.interceptors.request.use(
   function (config) {
     const cookieStore = cookies();

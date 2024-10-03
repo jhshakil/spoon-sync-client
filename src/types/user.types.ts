@@ -6,9 +6,15 @@ export type TUser = {
 
 export type TUserData = {
   _id: string;
+  authId: string;
   email: string;
-  role: string;
   name: string;
-  phone: string;
-  address: string;
+  bio: string;
+  profileImage: string;
+  phoneNumber: string;
+  gender: "male" | "female";
+  dateOfBirth: string;
+  isPro: string;
+  following: string;
+  follower: string;
 };
