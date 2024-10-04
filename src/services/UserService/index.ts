@@ -27,12 +27,7 @@ export const updateUser = async (formData: FormData): Promise<any> => {
   try {
     const { data } = await axiosInstance.patch(
       `/user/${user?.email}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      formData
     );
 
     revalidateTag("user");

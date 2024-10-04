@@ -9,7 +9,6 @@ type Props = {
 };
 
 const ProfileBanner = ({ user }: Props) => {
-  console.log(user);
   return (
     <div className="bg-background p-4 rounded-lg">
       <div className="flex justify-between gap-11">

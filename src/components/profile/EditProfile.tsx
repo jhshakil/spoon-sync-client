@@ -39,6 +39,8 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useUpdateUser } from "@/hooks/user.hook";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user: TUserData;
@@ -57,6 +59,7 @@ const FormSchema = z.object({
 });
 
 const EditProfile = ({ user }: Props) => {
+  const router = useRouter();
   const { mutate: handleUpdateUser, isPending, isSuccess } = useUpdateUser();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -90,6 +93,12 @@ const EditProfile = ({ user }: Props) => {
     //@ts-ignore
     handleUpdateUser(data);
   }
+
+  useEffect(() => {
+    if (!isPending && isSuccess) {
+      router.push("/user/profile");
+    }
+  }, [isPending, isSuccess]);
 
   return (
     <Card className="w-3/4 mx-auto my-8">
