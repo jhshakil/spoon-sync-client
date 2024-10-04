@@ -23,7 +23,7 @@ const TopBar = async () => {
           <TopBarAction
             username={user?.username}
             role={user?.role}
-            profileImage={userData?.profileImage}
+            userData={userData}
           />
         </div>
       </div>

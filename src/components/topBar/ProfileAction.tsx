@@ -17,11 +17,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/user.provider";
 import { protectedRoutes } from "@/constant";
+import { TUserData } from "@/types/user.types";
 
 type Props = {
   username: string;
   role: string;
-  profileImage: string;
+  userData: TUserData;
 };
 
 const userRoutes = [
@@ -45,7 +46,7 @@ const adminRoutes = [
   },
 ];
 
-const ProfileAction = ({ username, role, profileImage }: Props) => {
+const ProfileAction = ({ username, role, userData }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -65,11 +66,13 @@ const ProfileAction = ({ username, role, profileImage }: Props) => {
       <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarImage
-            src={profileImage}
+            src={userData?.profileImage}
             alt="Profile"
             className="object-cover"
           />
-          <AvatarFallback>SS</AvatarFallback>
+          <AvatarFallback className="uppercase">
+            {userData?.name[0]}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

@@ -5,24 +5,21 @@ import { buttonVariants } from "../ui/button";
 import ProfileAction from "./ProfileAction";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { TUserData } from "@/types/user.types";
 
 type Props = {
   username: string;
   role: string;
-  profileImage: string;
+  userData: TUserData;
 };
 
-const TopBarAction = ({ username, role, profileImage }: Props) => {
+const TopBarAction = ({ username, role, userData }: Props) => {
   return (
     <>
       {username ? (
         <>
           <ThemeMode />
-          <ProfileAction
-            username={username}
-            role={role}
-            profileImage={profileImage}
-          />
+          <ProfileAction username={username} role={role} userData={userData} />
         </>
       ) : (
         <>

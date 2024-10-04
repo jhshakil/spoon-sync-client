@@ -4,8 +4,9 @@ import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
 import { revalidateTag } from "next/cache";
 import { getCurrentUser } from "../AuthService";
+import { TUserData } from "@/types/user.types";
 
-export const getUser = async (email: string) => {
+export const getUser = async (email: string): Promise<{ data: TUserData }> => {
   const fetchOption = {
     next: {
       tags: ["user"],

@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 import { TUserData } from "@/types/user.types";
+import { Pencil } from "lucide-react";
 
 type Props = {
   user: TUserData;
@@ -19,7 +20,9 @@ const ProfileBanner = ({ user }: Props) => {
               alt="Profile Photo"
               className="object-cover"
             />
-            <AvatarFallback>SS</AvatarFallback>
+            <AvatarFallback className="uppercase">
+              {user?.name[0]}
+            </AvatarFallback>
           </Avatar>
           <div>
             <h1 className="text-2xl font-medium">{user.name}</h1>
@@ -29,9 +32,20 @@ const ProfileBanner = ({ user }: Props) => {
             </p>
           </div>
         </div>
-        <div>
-          <Link href={"/user/profile/edit"} className={cn(buttonVariants())}>
-            Edit Profile
+        <div className="flex flex-col items-end gap-3">
+          <Link
+            href={"/user/profile/edit"}
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "icon" })
+            )}
+          >
+            <Pencil className="w-4 h-4" />
+          </Link>
+          <Link
+            href={"/user/profile/create-post"}
+            className={cn(buttonVariants())}
+          >
+            Create Post
           </Link>
         </div>
       </div>

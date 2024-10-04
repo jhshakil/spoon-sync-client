@@ -1,3 +1,4 @@
+import ProfileAbout from "@/components/profile/ProfileAbout";
 import ProfileBanner from "@/components/profile/ProfileBanner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getCurrentUser } from "@/services/AuthService";
@@ -14,7 +15,7 @@ const Page = async () => {
         <ProfileBanner user={userData} />
       </ScrollArea>
       <ScrollArea className="h-[90vh] px-3">
-        <div className="bg-background">right side</div>
+        <ProfileAbout userData={userData} />
       </ScrollArea>
     </div>
   );
