@@ -12,7 +12,7 @@ const Layout = ({
   return (
     <div className="flex justify-between gap-4 mt-5">
       <ScrollArea className="h-[90vh] w-[280px] px-3">
-        <div className="bg-background  w-full">{leftSideBar}</div>
+        <div className="w-full">{leftSideBar}</div>
       </ScrollArea>
       <ScrollArea className="h-[90vh] flex-1 px-3">
         <div>{children}</div>
