@@ -4,7 +4,6 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
 import Underline from "@tiptap/extension-underline";
-import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
@@ -20,7 +19,6 @@ const PostTextEditor = ({ content, handleChange }: Props) => {
     extensions: [
       StarterKit,
       Underline,
-      Image.configure({ inline: true }),
       ImageResize.configure({ inline: true }),
       FontFamily,
       TextStyle,
@@ -46,7 +44,7 @@ const PostTextEditor = ({ content, handleChange }: Props) => {
   }
 
   return (
-    <div className="w-full px-4">
+    <div>
       <Toolbar editor={editor} content={content} />
       <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
     </div>

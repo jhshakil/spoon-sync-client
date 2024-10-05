@@ -36,7 +36,7 @@ const EditorImageUpload = ({ open, closeFn, editor }: Props) => {
 
   const submit = async () => {
     if (acceptedFiles[0]) {
-      const imgRef = ref(imageUploadDB, `/files/${v4()}`);
+      const imgRef = ref(imageUploadDB, `/postBody/${v4()}`);
       await uploadBytes(imgRef, acceptedFiles[0]).then(async (imgData) => {
         await getDownloadURL(imgData.ref).then((val) => {
           editor
