@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { type Editor } from "@tiptap/react";
 import {
   Bold,
@@ -13,20 +13,41 @@ import {
   Quote,
   Undo,
   Redo,
-  Code,
   Image,
   Heading3,
+  Heading4,
+  Heading5,
+  Link,
 } from "lucide-react";
 import EditorImageUpload from "../shared/EditorImageUpload";
-import { FontSizeIcon } from "@radix-ui/react-icons";
 
 type Props = {
-  editor: Editor | null;
+  editor: Editor;
   content: string;
 };
 
 const Toolbar = ({ editor, content }: Props) => {
   const [open, setOpen] = useState(false);
+
+  const setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
+
+    // cancelled
+    if (url === null) {
+      return;
+    }
+
+    // empty
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+
+      return;
+    }
+
+    // update link
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+  }, [editor]);
 
   if (!editor) {
     return null;
@@ -119,26 +140,40 @@ const Toolbar = ({ editor, content }: Props) => {
             editor.chain().focus().toggleHeading({ level: 3 }).run();
           }}
           className={
-            editor.isActive("heading", { level: 2 })
+            editor.isActive("heading", { level: 3 })
               ? "bg-primary text-white p-2 rounded-lg"
               : "text-primary"
           }
         >
           <Heading3 className="w-5 h-5" />
         </button>
-        {/* <button
+        <button
           onClick={(e) => {
             e.preventDefault();
-            editor.chain().focus().setFontSize("16pt").run();
+            editor.chain().focus().toggleHeading({ level: 4 }).run();
           }}
           className={
-            editor.isActive("heading", { level: 2 })
+            editor.isActive("heading", { level: 4 })
               ? "bg-primary text-white p-2 rounded-lg"
               : "text-primary"
           }
         >
-          <FontSizeIcon className="w-5 h-5" />
-        </button> */}
+          <Heading4 className="w-5 h-5" />
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            editor.chain().focus().toggleHeading({ level: 5 }).run();
+          }}
+          className={
+            editor.isActive("heading", { level: 5 })
+              ? "bg-primary text-white p-2 rounded-lg"
+              : "text-primary"
+          }
+        >
+          <Heading5 className="w-5 h-5" />
+        </button>
+
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -178,25 +213,32 @@ const Toolbar = ({ editor, content }: Props) => {
         >
           <Quote className="w-5 h-5" />
         </button>
+
+        <button
+          onClick={setLink}
+          className={editor.isActive("link") ? "hidden" : "text-primary"}
+        >
+          <Link className="w-5 h-5" />
+        </button>
         <button
           onClick={(e) => {
             e.preventDefault();
-            editor.chain().focus().setCode().run();
+            editor.chain().focus().unsetLink().run();
           }}
           className={
-            editor.isActive("code")
+            editor.isActive("link")
               ? "bg-primary text-white p-2 rounded-lg"
-              : "text-primary"
+              : "hidden"
           }
         >
-          <Code className="w-5 h-5" />
+          <Link className="w-5 h-5" />
         </button>
         <button
           onClick={(e) => {
             uploadImage(e);
           }}
           className={
-            editor.isActive("code")
+            editor.isActive("img")
               ? "bg-primary text-white p-2 rounded-lg"
               : "text-primary"
           }
