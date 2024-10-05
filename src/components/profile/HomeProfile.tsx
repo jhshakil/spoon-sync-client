@@ -10,6 +10,7 @@ type Props = {
 };
 
 const HomeProfile = ({ user }: Props) => {
+  if (!user) return;
   return (
     <div className="bg-background p-4 rounded-lg">
       <div className="flex flex-col items-center gap-4">
