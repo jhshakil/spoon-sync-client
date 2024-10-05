@@ -15,7 +15,7 @@ const Layout = ({
         <div className="bg-background  w-full">{leftSideBar}</div>
       </ScrollArea>
       <ScrollArea className="h-[90vh] flex-1 px-3">
-        <div className="bg-background">{children}</div>
+        <div>{children}</div>
       </ScrollArea>
       <ScrollArea className="h-[90vh] w-[280px] px-3">
         <div className="bg-background  w-full">{rightSideBar}</div>

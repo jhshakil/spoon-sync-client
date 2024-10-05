@@ -1,7 +1,14 @@
-export default function Home() {
+import AllPostCard from "@/components/post/AllPostCard";
+import { getAllPost } from "@/services/PostService";
+
+const Page = async () => {
+  const { data: posts } = await getAllPost();
+
   return (
     <div>
-      <p>page</p>
+      <AllPostCard posts={posts} />
     </div>
   );
-}
+};
+
+export default Page;

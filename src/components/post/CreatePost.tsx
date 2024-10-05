@@ -14,16 +14,22 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { TagInput } from "emblor";
-import { PostSubmitData } from "@/types/post.types";
+import { TPost } from "@/types/post.types";
 import { useCreatePost } from "@/hooks/post.hook";
 import { useRouter } from "next/navigation";
+import { TUser } from "@/types/user.types";
 
 type Tag = {
   id: string;
   text: string;
 };
 
-const CreatePost = () => {
+type Props = {
+  email: string;
+  role: string;
+};
+
+const CreatePost = ({ email, role }: Props) => {
   const router = useRouter();
 
   const [content, setContent] = useState<string>("");
@@ -51,12 +57,14 @@ const CreatePost = () => {
     setContent(newContent);
   };
 
-  const submit = async () => {
-    let data: PostSubmitData = {
+  const submit = async (published: boolean = true) => {
+    let data: TPost = {
+      email,
       title: title,
       thumbnail: "",
       content: content,
       tags: [],
+      isPublished: published,
     };
     if (acceptedFiles[0]) {
       const imgRef = ref(imageUploadDB, `/postThumb/${v4()}`);
@@ -169,7 +177,9 @@ const CreatePost = () => {
         >
           Cancel
         </Link>
-        <Button variant={"secondary"}>Save & Draft</Button>
+        <Button variant={"secondary"} onClick={() => submit(false)}>
+          Save & Draft
+        </Button>
         <Button onClick={() => submit()}>Save & Published</Button>
       </div>
     </div>
