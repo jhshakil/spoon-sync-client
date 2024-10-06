@@ -64,7 +64,7 @@ const AllPostList = ({ posts }: Props) => {
               <TableCell>{post.isPublished}</TableCell>
               <TableCell>{post.isBlocked}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
-                <TooltipProvider>
+                {/* <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <ConfirmDialog
@@ -81,7 +81,7 @@ const AllPostList = ({ posts }: Props) => {
                       <p>Delete Post</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider>
+                </TooltipProvider> */}
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>

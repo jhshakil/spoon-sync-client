@@ -58,7 +58,7 @@ const CreatePost = ({ email, role }: Props) => {
   };
 
   const submit = async (published: boolean = true) => {
-    let data: TPost = {
+    const data: TPost = {
       email,
       title: title,
       thumbnail: "",
@@ -73,7 +73,7 @@ const CreatePost = ({ email, role }: Props) => {
       });
     }
 
-    let onlyTag: string[] = [];
+    const onlyTag: string[] = [];
 
     tags?.forEach((el) => onlyTag.push(el.text));
 

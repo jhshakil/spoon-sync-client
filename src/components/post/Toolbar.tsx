@@ -13,11 +13,11 @@ import {
   Quote,
   Undo,
   Redo,
-  Image,
   Heading3,
   Heading4,
   Heading5,
   Link,
+  ImageIcon,
 } from "lucide-react";
 import EditorImageUpload from "../shared/EditorImageUpload";
 
@@ -243,7 +243,7 @@ const Toolbar = ({ editor, content }: Props) => {
               : "text-primary"
           }
         >
-          <Image className="w-5 h-5" />
+          <ImageIcon className="w-5 h-5" />
         </button>
         <button
           onClick={(e) => {
