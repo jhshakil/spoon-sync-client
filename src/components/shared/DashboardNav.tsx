@@ -15,6 +15,14 @@ const Nav = [
     name: "Create Admin",
     path: "/admin/create-admin",
   },
+  {
+    name: "All Users",
+    path: "/admin/user-list",
+  },
+  {
+    name: "All Admin",
+    path: "/admin/admin-list",
+  },
 ];
 
 const DashboardNav = () => {

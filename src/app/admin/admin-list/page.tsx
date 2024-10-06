@@ -3,7 +3,7 @@ const Page = () => {
     <div className="p-4">
       <div className="border-b border-border">
         <div className="py-2 mb-2">
-          <h2 className="text-2xl">Create Admin</h2>
+          <h2 className="text-2xl">All Admins</h2>
         </div>
       </div>
     </div>

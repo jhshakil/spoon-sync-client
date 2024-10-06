@@ -64,7 +64,7 @@ const AllPostList = ({ posts }: Props) => {
               <TableCell>{post.isPublished}</TableCell>
               <TableCell>{post.isBlocked}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
-                {/* <TooltipProvider>
+                <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <ConfirmDialog
@@ -81,21 +81,37 @@ const AllPostList = ({ posts }: Props) => {
                       <p>Delete Post</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider> */}
+                </TooltipProvider>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <ShieldBan color="orange" />
+                      <ConfirmDialog
+                        titleMessage="Confirm Message"
+                        descriptionMessage="Are you sure! You want to Block"
+                        onSubmit={deletePost}
+                      >
+                        <Button variant={"outline"} size={"icon"}>
+                          <ShieldBan color="orange" />
+                        </Button>
+                      </ConfirmDialog>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Un Blocked</p>
+                      <p>Blocked</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <ShieldCheck color="green" />
+                      <ConfirmDialog
+                        titleMessage="Confirm Message"
+                        descriptionMessage="Are you sure! You want to Published"
+                        onSubmit={deletePost}
+                      >
+                        <Button variant={"outline"} size={"icon"}>
+                          <ShieldCheck color="green" />
+                        </Button>
+                      </ConfirmDialog>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>Published</p>
