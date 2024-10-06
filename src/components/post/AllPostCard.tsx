@@ -6,7 +6,7 @@ type Props = {
 };
 
 const AllPostCard = ({ posts }: Props) => {
-  if (!posts.length)
+  if (!posts?.length)
     return (
       <div className="bg-background p-8 text-center text-xl rounded-lg">
         No post found
