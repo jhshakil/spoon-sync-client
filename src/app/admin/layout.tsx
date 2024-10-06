@@ -1,19 +1,26 @@
+import DashboardNav from "@/components/shared/DashboardNav";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel defaultSize={20} maxSize={20} minSize={10}>
-        <div className="flex h-[200px] items-center justify-center p-6">
-          <span className="font-semibold">One</span>
-        </div>
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="bg-background mt-5 rounded-lg"
+    >
+      <ResizablePanel defaultSize={15} maxSize={20} minSize={10}>
+        <ScrollArea className="h-[90vh]">
+          <DashboardNav />
+        </ScrollArea>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={80}>{children}</ResizablePanel>
+      <ResizablePanel defaultSize={80}>
+        <ScrollArea className="h-[90vh]">{children}</ScrollArea>
+      </ResizablePanel>
     </ResizablePanelGroup>
   );
 };
