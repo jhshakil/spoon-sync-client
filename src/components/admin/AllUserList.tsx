@@ -55,7 +55,7 @@ const AllUserList = ({ users }: Props) => {
                 </div>
               </TableCell>
               <TableCell>{user.phoneNumber}</TableCell>
-              <TableCell>{`${user?.authId?.status}`}</TableCell>
+              <TableCell>{user?.authId?.status}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
                 <ConfirmDialog
                   titleMessage="Confirm Message"
