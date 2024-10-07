@@ -5,6 +5,6 @@ export type TPost = {
   thumbnail: string;
   content: string;
   tags: string[];
-  isPublished: boolean;
-  isBlocked?: boolean;
+  status: TPostStatus;
 };
+export type TPostStatus = "published" | "draft" | "blocked";

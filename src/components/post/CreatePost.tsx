@@ -14,7 +14,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { TagInput } from "emblor";
-import { TPost } from "@/types/post.types";
+import { TPost, TPostStatus } from "@/types/post.types";
 import { useCreatePost } from "@/hooks/post.hook";
 import { useRouter } from "next/navigation";
 
@@ -56,14 +56,14 @@ const CreatePost = ({ email, role }: Props) => {
     setContent(newContent);
   };
 
-  const submit = async (published: boolean = true) => {
+  const submit = async (status: TPostStatus) => {
     const data: TPost = {
       email,
       title: title,
       thumbnail: "",
       content: content,
       tags: [],
-      isPublished: published,
+      status,
     };
     if (acceptedFiles[0]) {
       const imgRef = ref(imageUploadDB, `/postThumb/${v4()}`);
@@ -79,8 +79,6 @@ const CreatePost = ({ email, role }: Props) => {
     data.tags = onlyTag;
 
     handleCreatePost(data);
-
-    console.log(data);
   };
 
   if (!createPostPending && isSuccess) {
@@ -176,10 +174,10 @@ const CreatePost = ({ email, role }: Props) => {
         >
           Cancel
         </Link>
-        <Button variant={"secondary"} onClick={() => submit(false)}>
+        <Button variant={"secondary"} onClick={() => submit("draft")}>
           Save & Draft
         </Button>
-        <Button onClick={() => submit()}>Save & Published</Button>
+        <Button onClick={() => submit("published")}>Save & Published</Button>
       </div>
     </div>
   );

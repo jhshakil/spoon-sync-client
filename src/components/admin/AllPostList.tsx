@@ -33,8 +33,7 @@ const AllPostList = ({ posts }: Props) => {
             <TableHead>Email</TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Thumbnail</TableHead>
-            <TableHead>Is Published</TableHead>
-            <TableHead>Is Blocked</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -54,8 +53,7 @@ const AllPostList = ({ posts }: Props) => {
                   />
                 </div>
               </TableCell>
-              <TableCell>{post.isPublished}</TableCell>
-              <TableCell>{post.isBlocked}</TableCell>
+              <TableCell>{post.status}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
                 <ConfirmDialog
                   titleMessage="Confirm Message"

@@ -20,6 +20,7 @@ type Props = {
 };
 
 const AllUserList = ({ users }: Props) => {
+  console.log(users);
   const deletePost = () => {
     console.log("hi");
   };
@@ -33,7 +34,7 @@ const AllUserList = ({ users }: Props) => {
             <TableHead>Name</TableHead>
             <TableHead>Profile Image</TableHead>
             <TableHead>Phone Number</TableHead>
-            <TableHead>Is Blocked</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -54,7 +55,7 @@ const AllUserList = ({ users }: Props) => {
                 </div>
               </TableCell>
               <TableCell>{user.phoneNumber}</TableCell>
-              <TableCell>{user?.authId?.isBlocked}</TableCell>
+              <TableCell>{`${user?.authId?.status}`}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
                 <ConfirmDialog
                   titleMessage="Confirm Message"

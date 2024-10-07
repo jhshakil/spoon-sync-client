@@ -2,7 +2,7 @@ export type TUser = {
   email: string;
   username: string;
   role: string;
-  isBlocked?: boolean;
+  status?: string;
 };
 
 export type TUserData = {
