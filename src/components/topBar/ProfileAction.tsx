@@ -17,12 +17,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/user.provider";
 import { protectedRoutes } from "@/constant";
-import { TUserData } from "@/types/user.types";
+import { TAdminData, TUserData } from "@/types/user.types";
 
 type Props = {
   username: string;
   role: string;
-  userData: TUserData;
+  userData: TUserData | TAdminData | null;
 };
 
 const userRoutes = [
@@ -71,7 +71,7 @@ const ProfileAction = ({ username, role, userData }: Props) => {
             className="object-cover"
           />
           <AvatarFallback className="uppercase">
-            {userData?.name[0]}
+            {userData?.name?.[0] || "S"}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

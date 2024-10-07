@@ -5,7 +5,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -27,7 +26,7 @@ const AllUserList = ({ users }: Props) => {
   return (
     <div>
       <Table>
-        <TableCaption>A list of Posts</TableCaption>
+        <TableCaption>A list of Users</TableCaption>
         <TableHeader>
           <TableRow className="gap-4">
             <TableHead>Email</TableHead>
@@ -77,12 +76,6 @@ const AllUserList = ({ users }: Props) => {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
     </div>
   );

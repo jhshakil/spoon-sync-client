@@ -3,12 +3,25 @@ import Logo from "../shared/Logo";
 import MainSearch from "./MainSearch";
 import TopBarAction from "./TopBarAction";
 import { getCurrentUser } from "@/services/AuthService";
-import { getUser } from "@/services/UserService";
+import { getAdmin, getUser } from "@/services/UserService";
+import { TAdminData, TUserData } from "@/types/user.types";
 
 const TopBar = async () => {
   const user = await getCurrentUser();
 
-  const { data: userData } = await getUser(user?.email as string);
+  let userData: TUserData | TAdminData | null = null;
+
+  try {
+    if (user?.role === "admin") {
+      const { data } = await getAdmin(user?.email as string);
+      userData = data;
+    } else {
+      const { data } = await getUser(user?.email as string);
+      userData = data;
+    }
+  } catch (error: any) {
+    console.log(error.message);
+  }
 
   return (
     <header className="w-full py-4 bg-background">

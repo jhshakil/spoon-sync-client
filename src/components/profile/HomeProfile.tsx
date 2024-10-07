@@ -1,4 +1,4 @@
-import { TUserData } from "@/types/user.types";
+import { TAdminData, TUserData } from "@/types/user.types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 
 type Props = {
-  user: TUserData;
+  user: TUserData | null;
 };
 
 const HomeProfile = ({ user }: Props) => {
