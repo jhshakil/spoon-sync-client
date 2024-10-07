@@ -1,11 +1,23 @@
+import { getCurrentUser } from "@/services/AuthService";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 
-const Nav = [
+const ANav = [
   {
     name: "Profile",
     path: "/admin/profile",
   },
+  {
+    name: "Dashboard",
+    path: "/admin/dashboard",
+  },
+  {
+    name: "All Users",
+    path: "/admin/user-list",
+  },
+];
+
+const SNav = [
   {
     name: "Dashboard",
     path: "/admin/dashboard",
@@ -25,7 +37,8 @@ const Nav = [
   },
 ];
 
-const DashboardNav = () => {
+const DashboardNav = async () => {
+  const user = await getCurrentUser();
   return (
     <div className="p-4">
       <div className="border-b border-border">
@@ -36,7 +49,7 @@ const DashboardNav = () => {
       </div>
       <div>
         <ul>
-          {Nav?.map((el) => (
+          {(user?.role === "admin" ? ANav : SNav)?.map((el) => (
             <li key={el.path} className="py-2 border-b border-border">
               <Link href={el.path}>{el.name}</Link>
             </li>

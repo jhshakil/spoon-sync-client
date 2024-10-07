@@ -20,6 +20,7 @@ type Props = {
 };
 
 const AllAdminList = ({ users }: Props) => {
+  if (!users) return;
   const deletePost = () => {
     console.log("hi");
   };

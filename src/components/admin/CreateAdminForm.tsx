@@ -81,7 +81,7 @@ const CreateAdminForm = () => {
 
   useEffect(() => {
     if (!isPending && isSuccess) {
-      router.push("/");
+      router.push("/admin/admin-list");
     }
   }, [isPending, isSuccess]);
 

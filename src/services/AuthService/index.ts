@@ -2,6 +2,7 @@
 
 import axiosInstance from "@/lib/axiosInstance";
 import { jwtDecode } from "jwt-decode";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
@@ -23,12 +24,7 @@ export const registerUser = async (userData: FieldValues) => {
 export const registerAdmin = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/auth/create-admin", userData);
-
-    if (data.success) {
-      cookies().set("accessToken", data?.data?.accessToken);
-      cookies().set("refreshToken", data?.data?.refreshToken);
-    }
-
+    revalidateTag("admins");
     return data;
   } catch (error: any) {
     throw new Error(error);
