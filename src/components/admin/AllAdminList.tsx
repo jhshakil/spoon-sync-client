@@ -20,7 +20,6 @@ type Props = {
 };
 
 const AllAdminList = ({ users }: Props) => {
-  if (!users) return;
   const deletePost = () => {
     console.log("hi");
   };
@@ -34,7 +33,7 @@ const AllAdminList = ({ users }: Props) => {
             <TableHead>Name</TableHead>
             <TableHead>Profile Image</TableHead>
             <TableHead>Phone Number</TableHead>
-            <TableHead>Is Blocked</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>

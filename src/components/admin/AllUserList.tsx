@@ -13,17 +13,30 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import ConfirmDialog from "./ConfirmDialog";
-import { TUserData } from "@/types/user.types";
+import { TUserData, TUserStatus } from "@/types/user.types";
+import { useDeleteUser, useUpdateStatus } from "@/hooks/user.hook";
 
 type Props = {
   users: TUserData[];
 };
 
 const AllUserList = ({ users }: Props) => {
-  console.log(users);
-  const deletePost = () => {
-    console.log("hi");
+  const { mutate: updatingUser } = useUpdateStatus();
+
+  const { mutate: deletingUser } = useDeleteUser();
+
+  const deletePost = (email: string) => {
+    deletingUser(email);
   };
+
+  const updatePost = (email: string, status: TUserStatus) => {
+    const data = {
+      email,
+      status,
+    };
+    updatingUser(data);
+  };
+
   return (
     <div>
       <Table>
@@ -60,19 +73,29 @@ const AllUserList = ({ users }: Props) => {
                 <ConfirmDialog
                   titleMessage="Confirm Message"
                   descriptionMessage="Are you sure! You want to delete it"
-                  onSubmit={deletePost}
+                  onSubmit={() => deletePost(user?.email as string)}
                 >
                   <Button variant={"outline"} size={"icon"}>
                     <Trash2 color="red" />
                   </Button>
                 </ConfirmDialog>
-                <ConfirmDialog
-                  titleMessage="Confirm Message"
-                  descriptionMessage="Are you sure! You want to Block"
-                  onSubmit={deletePost}
-                >
-                  <Button>Block</Button>
-                </ConfirmDialog>
+                {user?.authId?.status === "active" ? (
+                  <ConfirmDialog
+                    titleMessage="Confirm Message"
+                    descriptionMessage="Are you sure! You want to Block"
+                    onSubmit={() => updatePost(user?.email, "blocked")}
+                  >
+                    <Button>Block</Button>
+                  </ConfirmDialog>
+                ) : (
+                  <ConfirmDialog
+                    titleMessage="Confirm Message"
+                    descriptionMessage="Are you sure! You want to Active"
+                    onSubmit={() => updatePost(user?.email, "active")}
+                  >
+                    <Button>Active</Button>
+                  </ConfirmDialog>
+                )}
               </TableCell>
             </TableRow>
           ))}

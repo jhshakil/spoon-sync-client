@@ -10,19 +10,32 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { TPost } from "@/types/post.types";
+import { TPost, TPostStatus } from "@/types/post.types";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import ConfirmDialog from "./ConfirmDialog";
+import { useDeletePost, useUpdatePost } from "@/hooks/post.hook";
 
 type Props = {
   posts: TPost[];
 };
 
 const AllPostList = ({ posts }: Props) => {
-  const deletePost = () => {
-    console.log("hi");
+  const { mutate: updatingPost } = useUpdatePost();
+
+  const { mutate: deletingPost } = useDeletePost();
+
+  const deletePost = (id: string) => {
+    deletingPost(id);
+  };
+
+  const updatePost = (id: string, status: TPostStatus) => {
+    const data = {
+      _id: id,
+      status,
+    };
+    updatingPost(data);
   };
   return (
     <div>
@@ -58,26 +71,29 @@ const AllPostList = ({ posts }: Props) => {
                 <ConfirmDialog
                   titleMessage="Confirm Message"
                   descriptionMessage="Are you sure! You want to delete it"
-                  onSubmit={deletePost}
+                  onSubmit={() => deletePost(post._id as string)}
                 >
                   <Button variant={"outline"} size={"icon"}>
                     <Trash2 color="red" />
                   </Button>
                 </ConfirmDialog>
-                <ConfirmDialog
-                  titleMessage="Confirm Message"
-                  descriptionMessage="Are you sure! You want to Block"
-                  onSubmit={deletePost}
-                >
-                  <Button>Block</Button>
-                </ConfirmDialog>
-                <ConfirmDialog
-                  titleMessage="Confirm Message"
-                  descriptionMessage="Are you sure! You want to Published"
-                  onSubmit={deletePost}
-                >
-                  <Button variant={"outline"}>Publish</Button>
-                </ConfirmDialog>
+                {post.status === "published" ? (
+                  <ConfirmDialog
+                    titleMessage="Confirm Message"
+                    descriptionMessage="Are you sure! You want to Block"
+                    onSubmit={() => updatePost(post._id as string, "blocked")}
+                  >
+                    <Button>Block</Button>
+                  </ConfirmDialog>
+                ) : (
+                  <ConfirmDialog
+                    titleMessage="Confirm Message"
+                    descriptionMessage="Are you sure! You want to Publish"
+                    onSubmit={() => updatePost(post._id as string, "published")}
+                  >
+                    <Button>Publish</Button>
+                  </ConfirmDialog>
+                )}
               </TableCell>
             </TableRow>
           ))}

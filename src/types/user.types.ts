@@ -2,8 +2,10 @@ export type TUser = {
   email: string;
   username: string;
   role: string;
-  status?: string;
+  status?: TUserStatus;
 };
+
+export type TUserStatus = "active" | "inActive" | "blocked";
 
 export type TUserData = {
   _id: string;

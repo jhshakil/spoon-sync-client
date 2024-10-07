@@ -4,7 +4,7 @@ import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
 import { revalidateTag } from "next/cache";
 import { getCurrentUser } from "../AuthService";
-import { TAdminData, TUserData } from "@/types/user.types";
+import { TAdminData, TUser, TUserData } from "@/types/user.types";
 
 export const getUser = async (email: string): Promise<{ data: TUserData }> => {
   const fetchOption = {
@@ -82,6 +82,7 @@ export const updateUser = async (formData: FormData): Promise<any> => {
     );
 
     revalidateTag("user");
+    revalidateTag("users");
 
     return data;
   } catch (error: any) {
@@ -99,9 +100,41 @@ export const updateAdmin = async (formData: FormData): Promise<any> => {
     );
 
     revalidateTag("admin");
+    revalidateTag("admins");
 
     return data;
   } catch (error: any) {
     throw new Error(error);
+  }
+};
+
+export const updateUserStatus = async (
+  payload: Partial<TUser>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/user/status/${payload.email}`,
+      payload
+    );
+
+    revalidateTag("users");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to update status");
+  }
+};
+
+export const deleteUser = async (email: string): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.delete(`/user/${email}`);
+
+    revalidateTag("users");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to delete user");
   }
 };
