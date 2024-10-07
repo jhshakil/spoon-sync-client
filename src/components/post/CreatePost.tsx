@@ -17,7 +17,6 @@ import { TagInput } from "emblor";
 import { TPost } from "@/types/post.types";
 import { useCreatePost } from "@/hooks/post.hook";
 import { useRouter } from "next/navigation";
-import { TUser } from "@/types/user.types";
 
 type Tag = {
   id: string;

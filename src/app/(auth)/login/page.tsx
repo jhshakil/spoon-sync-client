@@ -56,13 +56,11 @@ const Page = () => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const toastId = toast.loading("Logged in");
-
     try {
       handleUserLogin(data);
       userLoading(true);
     } catch (err: any) {
-      toast.error("Something went wrong", { id: toastId, duration: 2000 });
+      toast.error("Something went wrong");
     }
   }
 

@@ -75,16 +75,14 @@ const Page = () => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const toastId = toast.loading("Registration in");
-
     try {
       handleUserRegistration(data);
       userLoading(true);
     } catch (err: any) {
       if (err?.data?.message === "already exist") {
-        toast.error("User already exist", { id: toastId, duration: 2000 });
+        toast.error("User already exist");
       } else {
-        toast.error("Something went wrong", { id: toastId, duration: 2000 });
+        toast.error("Something went wrong");
       }
     }
   }
