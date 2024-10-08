@@ -138,3 +138,34 @@ export const deleteUser = async (email: string): Promise<any> => {
     throw new Error("Failed to delete user");
   }
 };
+
+export const updateAdminStatus = async (
+  payload: Partial<TAdminData>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/admin/status/${payload.email}`,
+      payload
+    );
+
+    revalidateTag("admins");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to update status");
+  }
+};
+
+export const deleteAdmin = async (email: string): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.delete(`/admin/${email}`);
+
+    revalidateTag("admins");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to delete admin");
+  }
+};
