@@ -78,6 +78,8 @@ const CreatePost = ({ email, role }: Props) => {
 
     data.tags = onlyTag;
 
+    console.log(data);
+
     handleCreatePost(data);
   };
 
