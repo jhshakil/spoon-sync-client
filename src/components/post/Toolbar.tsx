@@ -23,10 +23,9 @@ import EditorImageUpload from "../shared/EditorImageUpload";
 
 type Props = {
   editor: Editor;
-  content: string;
 };
 
-const Toolbar = ({ editor, content }: Props) => {
+const Toolbar = ({ editor }: Props) => {
   const [open, setOpen] = useState(false);
 
   const setLink = useCallback(() => {

@@ -14,33 +14,29 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { TagInput } from "emblor";
-import { TPost, TPostStatus } from "@/types/post.types";
-import { useCreatePost } from "@/hooks/post.hook";
+import { TPost, TPostStatus, TTag } from "@/types/post.types";
+import { useCreatePost, useUpdatePost } from "@/hooks/post.hook";
 import { useRouter } from "next/navigation";
-
-type Tag = {
-  id: string;
-  text: string;
-};
 
 type Props = {
   email: string;
+  post: TPost;
 };
 
-const CreatePost = ({ email }: Props) => {
+const UpdatePost = ({ email, post }: Props) => {
   const router = useRouter();
 
-  const [content, setContent] = useState<string>("");
-  const [preview, setPreview] = useState("");
-  const [title, setTitle] = useState("");
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [content, setContent] = useState<string>(post?.content || "");
+  const [preview, setPreview] = useState(post?.thumbnail || "");
+  const [title, setTitle] = useState(post?.title || "");
+  const [tags, setTags] = useState<TTag[]>(post?.tags || []);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
 
   const {
-    mutate: handleCreatePost,
+    mutate: handleUpdatePost,
     isPending: createPostPending,
     isSuccess,
-  } = useCreatePost();
+  } = useUpdatePost();
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -57,11 +53,12 @@ const CreatePost = ({ email }: Props) => {
 
   const submit = async (status: TPostStatus) => {
     const data: TPost = {
+      _id: post._id,
       email,
-      title: title,
-      thumbnail: "",
-      content: content,
-      tags: tags,
+      title,
+      thumbnail: post?.thumbnail,
+      content,
+      tags,
       status,
     };
     if (acceptedFiles[0]) {
@@ -71,7 +68,7 @@ const CreatePost = ({ email }: Props) => {
       });
     }
 
-    handleCreatePost(data);
+    handleUpdatePost(data);
   };
 
   if (!createPostPending && isSuccess) {
@@ -88,6 +85,7 @@ const CreatePost = ({ email }: Props) => {
           id="postTitle"
           placeholder="Enter post title"
           className="w-[400px] h-11"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
@@ -176,4 +174,4 @@ const CreatePost = ({ email }: Props) => {
   );
 };
 
-export default CreatePost;
+export default UpdatePost;

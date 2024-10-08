@@ -6,7 +6,7 @@ const Page = async () => {
 
   return (
     <div>
-      <CreatePost email={user?.email} role={user?.role} />
+      <CreatePost email={user?.email} />
     </div>
   );
 };

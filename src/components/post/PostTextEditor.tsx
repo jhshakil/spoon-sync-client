@@ -37,6 +37,7 @@ const PostTextEditor = ({ content, handleChange }: Props) => {
     onUpdate: ({ editor }) => {
       handleChange(editor.getHTML());
     },
+    content: content,
   });
 
   if (!editor) {
@@ -45,7 +46,7 @@ const PostTextEditor = ({ content, handleChange }: Props) => {
 
   return (
     <div>
-      <Toolbar editor={editor} content={content} />
+      <Toolbar editor={editor} />
       <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
     </div>
   );
