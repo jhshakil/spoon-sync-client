@@ -12,8 +12,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
+import { ChevronDown, ChevronUp, EllipsisVertical, Star } from "lucide-react";
 import { useDeletePost, useUpdatePost } from "@/hooks/post.hook";
+import PostComment from "./PostComment";
+import { format } from "date-fns";
+import { Ratings } from "../ui/rattings";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type Props = {
   post: TPost;
@@ -47,14 +51,39 @@ const PostCard = ({ post }: Props) => {
   return (
     <div className="bg-background p-8 rounded-lg flex flex-col gap-3">
       <div className="flex justify-between gap-11">
-        <h2
-          className={cn(
-            "text-[42px]",
-            post?.status === "draft" ? "text-muted-foreground" : ""
-          )}
-        >
-          {post.title}
-        </h2>
+        <div>
+          <h2
+            className={cn(
+              "text-[42px]",
+              post?.status === "draft" ? "text-muted-foreground" : ""
+            )}
+          >
+            {post.title}
+          </h2>
+          <div className="flex gap-3 items-center">
+            <div className="flex gap-2 items-center">
+              <Avatar className="w-8 h-8">
+                <AvatarImage src={""} alt="Profile" className="object-cover" />
+                <AvatarFallback className="uppercase">{"S"}</AvatarFallback>
+              </Avatar>
+              <p>@username</p>
+            </div>{" "}
+            |
+            <div className="text-xs text-primary">
+              {format(post?.createdAt as string, "PPP")}
+            </div>{" "}
+            |{" "}
+            <div className="flex gap-2 items-center">
+              <Ratings
+                rating={2.5}
+                variant="primary"
+                totalStars={5}
+                size={15}
+              />{" "}
+              <span>(2.5)</span>
+            </div>
+          </div>
+        </div>
         <div className="flex justify-end items-center gap-3">
           <Link
             href={`/post/${stringToSlug(post.title)}?key=${post._id}`}
@@ -105,6 +134,19 @@ const PostCard = ({ post }: Props) => {
         className="w-full h-full aspect-video object-cover"
         alt="thumbnail"
       />
+      <div className="flex justify-between mt-3">
+        <div className="flex gap-8">
+          <div className="flex gap-2 cursor-pointer">
+            <span>20</span> <ChevronUp />
+          </div>
+          <div className="flex gap-2 cursor-pointer">
+            <span>10</span> <ChevronDown />
+          </div>
+        </div>
+        <div>
+          <PostComment />
+        </div>
+      </div>
     </div>
   );
 };

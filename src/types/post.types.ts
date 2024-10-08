@@ -6,6 +6,7 @@ export type TPost = {
   content: string;
   tags: TTag[];
   status: TPostStatus;
+  createdAt?: string;
 };
 
 export type TTag = {
