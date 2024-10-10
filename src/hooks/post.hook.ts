@@ -1,13 +1,19 @@
 import {
   createComment,
   createFullPost,
+  createRatting,
   deleteComment,
   deletePost,
   updateAction,
   updateComment,
   updatePost,
 } from "@/services/PostService";
-import { TPost, TPostAction, TPostComment } from "@/types/post.types";
+import {
+  TPost,
+  TPostAction,
+  TPostComment,
+  TPostRatting,
+} from "@/types/post.types";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -104,6 +110,24 @@ export const useDeleteComment = () => {
       await deleteComment(postData.id, postData.cid),
     onSuccess: () => {
       toast.success("Comment delete successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useRatting = () => {
+  return useMutation<
+    any,
+    Error,
+    { id: string; ratting: Partial<TPostRatting> }
+  >({
+    mutationKey: ["RATTING"],
+    mutationFn: async (postData) =>
+      await createRatting(postData.id, postData.ratting),
+    onSuccess: () => {
+      toast.success("Ratting successfully");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -2,7 +2,12 @@
 
 import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
-import { TPost, TPostAction, TPostComment } from "@/types/post.types";
+import {
+  TPost,
+  TPostAction,
+  TPostComment,
+  TPostRatting,
+} from "@/types/post.types";
 import { revalidateTag } from "next/cache";
 import { getCurrentUser } from "../AuthService";
 
@@ -145,5 +150,20 @@ export const deleteComment = async (id: string, cid: string): Promise<any> => {
     return data;
   } catch (error: any) {
     throw new Error("Failed to delete comment");
+  }
+};
+
+export const createRatting = async (
+  id: string,
+  payload: Partial<TPostRatting>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post(`/post/ratting/${id}`, payload);
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error: any) {
+    throw new Error("Failed to ratting");
   }
 };

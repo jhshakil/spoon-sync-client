@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { TPost, TPostStatus } from "@/types/post.types";
+import { TPost, TPostRatting, TPostStatus } from "@/types/post.types";
 import Link from "next/link";
 import { Button, buttonVariants } from "../ui/button";
 import Image from "next/image";
@@ -15,6 +15,7 @@ import {
 import { ChevronDown, ChevronUp, EllipsisVertical } from "lucide-react";
 import {
   useDeletePost,
+  useRatting,
   useUpdatePost,
   useUpdatePostAction,
 } from "@/hooks/post.hook";
@@ -40,6 +41,7 @@ const PostCard = ({ post, userId }: Props) => {
   const { mutate: handleDeletePost } = useDeletePost();
   const { mutate: updatingPost } = useUpdatePost();
   const { mutate: updatingAction } = useUpdatePostAction();
+  const { mutate: ratting } = useRatting();
 
   const stringToSlug = (title: string) => {
     return title
@@ -72,6 +74,27 @@ const PostCard = ({ post, userId }: Props) => {
     };
 
     updatingAction(data);
+  };
+
+  const ratePost = (pId: string, rate: string) => {
+    const data = {
+      id: pId,
+      ratting: {
+        count: rate,
+        userId,
+      },
+    };
+    ratting(data);
+  };
+
+  const myRatting = () => {
+    const result = post?.ratting?.find(
+      (el: TPostRatting) => el.userId === userId
+    );
+    if (result) {
+      return result.count;
+    }
+    return "";
   };
 
   return (
@@ -111,12 +134,12 @@ const PostCard = ({ post, userId }: Props) => {
             |{" "}
             <div className="flex gap-2 items-center">
               <Ratings
-                rating={2.5}
+                rating={Number(post?.averageRatting || 0)}
                 variant="primary"
                 totalstars={5}
                 size={15}
               />{" "}
-              <span>(2.5)</span>
+              <span>({post?.averageRatting || 0})</span>
             </div>
           </div>
         </div>
@@ -197,7 +220,11 @@ const PostCard = ({ post, userId }: Props) => {
           <PostComment userId={userId} post={post} />
         </div>
         <div>
-          <Select disabled={!userId}>
+          <Select
+            disabled={!userId}
+            defaultValue={myRatting()}
+            onValueChange={(value) => ratePost(post?._id as string, value)}
+          >
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Rate this post" />
             </SelectTrigger>
