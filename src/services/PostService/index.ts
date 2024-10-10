@@ -116,3 +116,34 @@ export const createComment = async (
     throw new Error("Failed to create comment");
   }
 };
+export const updateComment = async (
+  id: string,
+  cid: string,
+  payload: Partial<TPostComment>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/post/comment/${id}?cid=${cid}`,
+      payload
+    );
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error: any) {
+    throw new Error("Failed to update comment");
+  }
+};
+export const deleteComment = async (id: string, cid: string): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.delete(
+      `/post/comment/${id}?cid=${cid}`
+    );
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error: any) {
+    throw new Error("Failed to delete comment");
+  }
+};

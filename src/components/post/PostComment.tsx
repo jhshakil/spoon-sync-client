@@ -27,9 +27,14 @@ import {
 import { ScrollArea } from "../ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { TPost } from "@/types/post.types";
-import { useCreateComment } from "@/hooks/post.hook";
+import {
+  useCreateComment,
+  useDeleteComment,
+  useUpdateComment,
+} from "@/hooks/post.hook";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { format } from "date-fns";
 
 type Props = {
   userId: string;
@@ -38,22 +43,44 @@ type Props = {
 
 const PostComment = ({ userId, post }: Props) => {
   const [commentText, setCommentText] = useState("");
+  const [commentId, setCommentId] = useState("");
 
   const { mutate: creatingComment } = useCreateComment();
+  const { mutate: updatingComment } = useUpdateComment();
+  const { mutate: deletingComment } = useDeleteComment();
 
   const createComment = () => {
-    const data = {
-      id: post._id as string,
-      comment: {
-        text: commentText,
-        userId,
-      },
-    };
-    creatingComment(data);
+    if (commentId) {
+      const data = {
+        id: post._id as string,
+        cid: commentId,
+        comment: {
+          text: commentText,
+        },
+      };
+      updatingComment(data);
+      setCommentId("");
+    } else {
+      const data = {
+        id: post._id as string,
+        comment: {
+          text: commentText,
+          userId,
+        },
+      };
+      creatingComment(data);
+    }
+
     setCommentText("");
   };
 
-  console.log(post?.comment);
+  const deleteComment = (cid: string) => {
+    const data = {
+      id: post._id as string,
+      cid,
+    };
+    deletingComment(data);
+  };
 
   return (
     <Dialog>
@@ -104,9 +131,17 @@ const PostComment = ({ userId, post }: Props) => {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                <p className="border border-border rounded-lg p-4 flex-1">
-                  {item.text}
-                </p>
+                <div className=" flex-1">
+                  <p className="border border-border rounded-lg p-4">
+                    {item.text}
+                  </p>
+                  <small className="mt-1">
+                    created:{" "}
+                    <span className="text-primary">
+                      {format(item?.createdAt as string, "PP")}
+                    </span>
+                  </small>
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
@@ -118,8 +153,19 @@ const PostComment = ({ userId, post }: Props) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="min-w-[90px]">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setCommentText(item?.text);
+                        setCommentId(item?._id as string);
+                      }}
+                    >
+                      Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => deleteComment(item?._id as string)}
+                    >
+                      Delete
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

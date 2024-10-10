@@ -33,6 +33,7 @@ export type TPostComment = {
   _id?: string;
   text: string;
   userId: TUserData | string;
+  createdAt?: string;
 };
 
 export type TPostRatting = {

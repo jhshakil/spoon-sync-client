@@ -1,8 +1,10 @@
 import {
   createComment,
   createFullPost,
+  deleteComment,
   deletePost,
   updateAction,
+  updateComment,
   updatePost,
 } from "@/services/PostService";
 import { TPost, TPostAction, TPostComment } from "@/types/post.types";
@@ -72,6 +74,36 @@ export const useCreateComment = () => {
       await createComment(postData.id, postData.comment),
     onSuccess: () => {
       toast.success("Comment successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+export const useUpdateComment = () => {
+  return useMutation<
+    any,
+    Error,
+    { id: string; cid: string; comment: Partial<TPostComment> }
+  >({
+    mutationKey: ["UPDATE_POST_COMMENT"],
+    mutationFn: async (postData) =>
+      await updateComment(postData.id, postData.cid, postData.comment),
+    onSuccess: () => {
+      toast.success("Comment update successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+export const useDeleteComment = () => {
+  return useMutation<any, Error, { id: string; cid: string }>({
+    mutationKey: ["DELETE_POST_COMMENT"],
+    mutationFn: async (postData) =>
+      await deleteComment(postData.id, postData.cid),
+    onSuccess: () => {
+      toast.success("Comment delete successfully");
     },
     onError: (error) => {
       toast.error(error.message);
