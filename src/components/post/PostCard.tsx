@@ -33,10 +33,10 @@ import {
 
 type Props = {
   post: TPost;
-  authId: string;
+  userId: string;
 };
 
-const PostCard = ({ post, authId }: Props) => {
+const PostCard = ({ post, userId }: Props) => {
   const { mutate: handleDeletePost } = useDeletePost();
   const { mutate: updatingPost } = useUpdatePost();
   const { mutate: updatingAction } = useUpdatePostAction();
@@ -67,7 +67,7 @@ const PostCard = ({ post, authId }: Props) => {
       id: pId,
       action: {
         type: actionType,
-        authId,
+        userId,
       },
     };
 
@@ -89,10 +89,20 @@ const PostCard = ({ post, authId }: Props) => {
           <div className="flex gap-3 items-center">
             <div className="flex gap-2 items-center">
               <Avatar className="w-8 h-8">
-                <AvatarImage src={""} alt="Profile" className="object-cover" />
+                <AvatarImage
+                  src={
+                    typeof post?.userId === "object"
+                      ? post?.userId?.profileImage
+                      : ""
+                  }
+                  alt="Profile"
+                  className="object-cover"
+                />
                 <AvatarFallback className="uppercase">{"S"}</AvatarFallback>
               </Avatar>
-              <p>@username</p>
+              <p>
+                {typeof post?.userId === "object" ? post?.userId?.name : ""}
+              </p>
             </div>{" "}
             |
             <div className="text-xs text-primary">
@@ -163,20 +173,20 @@ const PostCard = ({ post, authId }: Props) => {
       <div className="flex justify-between items-center mt-3">
         <div className="flex gap-8">
           <button
-            disabled={!authId}
+            disabled={!userId}
             className={cn(
               "flex gap-2 cursor-pointer",
-              authId ? "" : "opacity-30 cursor-not-allowed"
+              userId ? "" : "opacity-30 cursor-not-allowed"
             )}
             onClick={() => updateAction(post?._id as string, "up")}
           >
             <span>{post.totalUpVote}</span> <ChevronUp />
           </button>
           <button
-            disabled={!authId}
+            disabled={!userId}
             className={cn(
               "flex gap-2 cursor-pointer",
-              authId ? "" : "opacity-30 cursor-not-allowed"
+              userId ? "" : "opacity-30 cursor-not-allowed"
             )}
             onClick={() => updateAction(post?._id as string, "down")}
           >
@@ -184,10 +194,10 @@ const PostCard = ({ post, authId }: Props) => {
           </button>
         </div>
         <div>
-          <PostComment authId={authId} />
+          <PostComment userId={userId} post={post} />
         </div>
         <div>
-          <Select disabled={!authId}>
+          <Select disabled={!userId}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Rate this post" />
             </SelectTrigger>

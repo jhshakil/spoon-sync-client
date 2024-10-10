@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,24 +18,53 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ScrollArea } from "../ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { TPost } from "@/types/post.types";
+import { useCreateComment } from "@/hooks/post.hook";
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type Props = {
-  authId: string;
+  userId: string;
+  post: TPost;
 };
 
-const PostComment = ({ authId }: Props) => {
+const PostComment = ({ userId, post }: Props) => {
+  const [commentText, setCommentText] = useState("");
+
+  const { mutate: creatingComment } = useCreateComment();
+
+  const createComment = () => {
+    const data = {
+      id: post._id as string,
+      comment: {
+        text: commentText,
+        userId,
+      },
+    };
+    creatingComment(data);
+    setCommentText("");
+  };
+
+  console.log(post?.comment);
+
   return (
     <Dialog>
-      <DialogTrigger asChild disabled={!authId}>
+      <DialogTrigger asChild disabled={!userId}>
         <button
           className={cn(
             "cursor-pointer",
-            authId ? "" : "opacity-30 cursor-not-allowed"
+            userId ? "" : "opacity-30 cursor-not-allowed"
           )}
         >
-          comment (30)
+          comment ({post.totalComment})
         </button>
       </DialogTrigger>
 
@@ -44,115 +75,64 @@ const PostComment = ({ authId }: Props) => {
             <DialogDescription></DialogDescription>
           </DialogHeader>
           <div className="py-4 flex flex-col gap-4">
-            <div className="flex gap-2">
-              <p className="border border-border rounded-lg p-4">
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing
-              </p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant={"secondary"}
-                    size={"icon"}
-                    className="bg-transparent"
-                  >
-                    <EllipsisVertical size={20} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[90px]">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <div className="flex gap-2">
-              <p className="border border-border rounded-lg p-4">
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing
-              </p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant={"secondary"}
-                    size={"icon"}
-                    className="bg-transparent"
-                  >
-                    <EllipsisVertical size={20} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[90px]">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <div className="flex gap-2">
-              <p className="border border-border rounded-lg p-4">
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing
-              </p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant={"secondary"}
-                    size={"icon"}
-                    className="bg-transparent"
-                  >
-                    <EllipsisVertical size={20} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[90px]">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <div className="flex gap-2">
-              <p className="border border-border rounded-lg p-4">
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing
-              </p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant={"secondary"}
-                    size={"icon"}
-                    className="bg-transparent"
-                  >
-                    <EllipsisVertical size={20} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[90px]">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            {post?.comment?.map((item) => (
+              <div key={item._id} className="flex gap-6">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage
+                          src={
+                            typeof item.userId === "object"
+                              ? item?.userId?.profileImage
+                              : ""
+                          }
+                          alt="Profile"
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="uppercase">
+                          {"S"}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        {typeof item.userId === "object"
+                          ? item?.userId?.name
+                          : ""}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <p className="border border-border rounded-lg p-4 flex-1">
+                  {item.text}
+                </p>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant={"secondary"}
+                      size={"icon"}
+                      className="bg-transparent"
+                    >
+                      <EllipsisVertical size={20} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="min-w-[90px]">
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ))}
           </div>
         </ScrollArea>
         <DialogFooter className="items-center gap-4 px-8">
-          <Textarea className="resize-none h-[100px]" />
-          <Button>Comment</Button>
+          <Textarea
+            className="resize-none h-[100px]"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+          />
+          <Button onClick={() => createComment()}>Comment</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

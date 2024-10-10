@@ -1,10 +1,11 @@
 import {
+  createComment,
   createFullPost,
   deletePost,
   updateAction,
   updatePost,
 } from "@/services/PostService";
-import { TPost, TPostAction } from "@/types/post.types";
+import { TPost, TPostAction, TPostComment } from "@/types/post.types";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -53,6 +54,24 @@ export const useUpdatePostAction = () => {
       await updateAction(postData.id, postData.action),
     onSuccess: () => {
       toast.success("Action update successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useCreateComment = () => {
+  return useMutation<
+    any,
+    Error,
+    { id: string; comment: Partial<TPostComment> }
+  >({
+    mutationKey: ["CREATE_POST_COMMENT"],
+    mutationFn: async (postData) =>
+      await createComment(postData.id, postData.comment),
+    onSuccess: () => {
+      toast.success("Comment successfully");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -10,16 +10,16 @@ type Props = {
 const AllPostCard = async ({ posts }: Props) => {
   const user = await getCurrentUser();
 
-  let authId: string = "";
+  let userId: string = "";
 
   try {
     if (user?.role === "admin") {
       const { data } = await getAdmin(user?.email as string);
 
-      authId = data?.authId?._id || "";
+      userId = data?._id || "";
     } else {
       const { data } = await getUser(user?.email as string);
-      authId = data?.authId?._id || "";
+      userId = data?._id || "";
     }
   } catch (error: any) {
     console.log(error.message);
@@ -36,7 +36,7 @@ const AllPostCard = async ({ posts }: Props) => {
     <div className="mb-8">
       {posts?.map((post: TPost) => (
         <div key={post._id}>
-          <PostCard post={post} authId={authId as string} />
+          <PostCard post={post} userId={userId as string} />
         </div>
       ))}
     </div>

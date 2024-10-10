@@ -1,5 +1,8 @@
+import { TUserData } from "./user.types";
+
 export type TPost = {
   _id?: string;
+  userId?: TUserData | string;
   email: string;
   title: string;
   thumbnail: string;
@@ -23,16 +26,17 @@ export type TTag = {
 
 export type TPostAction = {
   type: string;
-  authId: string;
+  userId: string;
 };
 
 export type TPostComment = {
+  _id?: string;
   text: string;
-  authId: string;
+  userId: TUserData | string;
 };
 
 export type TPostRatting = {
   count: string;
-  authId: string;
+  userId: string;
 };
 export type TPostStatus = "published" | "draft" | "blocked";

@@ -2,7 +2,7 @@
 
 import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
-import { TPost, TPostAction } from "@/types/post.types";
+import { TPost, TPostAction, TPostComment } from "@/types/post.types";
 import { revalidateTag } from "next/cache";
 import { getCurrentUser } from "../AuthService";
 
@@ -99,5 +99,20 @@ export const updateAction = async (
     return data;
   } catch (error: any) {
     throw new Error("Failed to update action");
+  }
+};
+
+export const createComment = async (
+  id: string,
+  payload: Partial<TPostComment>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post(`/post/comment/${id}`, payload);
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error: any) {
+    throw new Error("Failed to create comment");
   }
 };
