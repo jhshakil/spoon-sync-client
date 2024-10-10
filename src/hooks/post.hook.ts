@@ -1,5 +1,10 @@
-import { createFullPost, deletePost, updatePost } from "@/services/PostService";
-import { TPost } from "@/types/post.types";
+import {
+  createFullPost,
+  deletePost,
+  updateAction,
+  updatePost,
+} from "@/services/PostService";
+import { TPost, TPostAction } from "@/types/post.types";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -34,6 +39,20 @@ export const useDeletePost = () => {
     mutationFn: async (postData) => await deletePost(postData),
     onSuccess: () => {
       toast.success("Post delete successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUpdatePostAction = () => {
+  return useMutation<any, Error, { id: string; action: Partial<TPostAction> }>({
+    mutationKey: ["UPDATE_POST_ACTION"],
+    mutationFn: async (postData) =>
+      await updateAction(postData.id, postData.action),
+    onSuccess: () => {
+      toast.success("Action update successfully");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -17,14 +17,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "../ui/scroll-area";
+import { cn } from "@/lib/utils";
 
-type Props = {};
+type Props = {
+  authId: string;
+};
 
-const PostComment = (props: Props) => {
+const PostComment = ({ authId }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <p className="cursor-pointer">comment (30)</p>
+      <DialogTrigger asChild disabled={!authId}>
+        <button
+          className={cn(
+            "cursor-pointer",
+            authId ? "" : "opacity-30 cursor-not-allowed"
+          )}
+        >
+          comment (30)
+        </button>
       </DialogTrigger>
 
       <DialogContent className="w-[700px] max-w-[700px] h-[90vh] p-0">

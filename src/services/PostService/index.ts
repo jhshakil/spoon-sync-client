@@ -2,7 +2,7 @@
 
 import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
-import { TPost } from "@/types/post.types";
+import { TPost, TPostAction } from "@/types/post.types";
 import { revalidateTag } from "next/cache";
 import { getCurrentUser } from "../AuthService";
 
@@ -69,8 +69,7 @@ export const updatePost = async (payload: Partial<TPost>): Promise<any> => {
     revalidateTag("posts");
 
     return data;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
     throw new Error("Failed to update post");
   }
 };
@@ -85,5 +84,20 @@ export const deletePost = async (id: string): Promise<any> => {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to delete post");
+  }
+};
+
+export const updateAction = async (
+  id: string,
+  payload: Partial<TPostAction>
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post(`/post/action/${id}`, payload);
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error: any) {
+    throw new Error("Failed to update action");
   }
 };

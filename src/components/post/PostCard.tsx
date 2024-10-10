@@ -12,20 +12,34 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, ChevronUp, EllipsisVertical, Star } from "lucide-react";
-import { useDeletePost, useUpdatePost } from "@/hooks/post.hook";
+import { ChevronDown, ChevronUp, EllipsisVertical } from "lucide-react";
+import {
+  useDeletePost,
+  useUpdatePost,
+  useUpdatePostAction,
+} from "@/hooks/post.hook";
 import PostComment from "./PostComment";
 import { format } from "date-fns";
 import { Ratings } from "../ui/rattings";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Props = {
   post: TPost;
+  authId: string;
 };
 
-const PostCard = ({ post }: Props) => {
+const PostCard = ({ post, authId }: Props) => {
   const { mutate: handleDeletePost } = useDeletePost();
   const { mutate: updatingPost } = useUpdatePost();
+  const { mutate: updatingAction } = useUpdatePostAction();
 
   const stringToSlug = (title: string) => {
     return title
@@ -48,8 +62,20 @@ const PostCard = ({ post }: Props) => {
     updatingPost(data);
   };
 
+  const updateAction = (pId: string, actionType: string) => {
+    const data = {
+      id: pId,
+      action: {
+        type: actionType,
+        authId,
+      },
+    };
+
+    updatingAction(data);
+  };
+
   return (
-    <div className="bg-background p-8 rounded-lg flex flex-col gap-3">
+    <div className="bg-background px-8 py-4 rounded-lg flex flex-col gap-3">
       <div className="flex justify-between gap-11">
         <div>
           <h2
@@ -77,7 +103,7 @@ const PostCard = ({ post }: Props) => {
               <Ratings
                 rating={2.5}
                 variant="primary"
-                totalStars={5}
+                totalstars={5}
                 size={15}
               />{" "}
               <span>(2.5)</span>
@@ -134,17 +160,82 @@ const PostCard = ({ post }: Props) => {
         className="w-full h-full aspect-video object-cover"
         alt="thumbnail"
       />
-      <div className="flex justify-between mt-3">
+      <div className="flex justify-between items-center mt-3">
         <div className="flex gap-8">
-          <div className="flex gap-2 cursor-pointer">
-            <span>20</span> <ChevronUp />
-          </div>
-          <div className="flex gap-2 cursor-pointer">
-            <span>10</span> <ChevronDown />
-          </div>
+          <button
+            disabled={!authId}
+            className={cn(
+              "flex gap-2 cursor-pointer",
+              authId ? "" : "opacity-30 cursor-not-allowed"
+            )}
+            onClick={() => updateAction(post?._id as string, "up")}
+          >
+            <span>{post.totalUpVote}</span> <ChevronUp />
+          </button>
+          <button
+            disabled={!authId}
+            className={cn(
+              "flex gap-2 cursor-pointer",
+              authId ? "" : "opacity-30 cursor-not-allowed"
+            )}
+            onClick={() => updateAction(post?._id as string, "down")}
+          >
+            <span>{post.totalDownVote}</span> <ChevronDown />
+          </button>
         </div>
         <div>
-          <PostComment />
+          <PostComment authId={authId} />
+        </div>
+        <div>
+          <Select disabled={!authId}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Rate this post" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="5">
+                  <Ratings
+                    rating={5}
+                    variant="primary"
+                    totalstars={5}
+                    size={15}
+                  />
+                </SelectItem>
+                <SelectItem value="4">
+                  <Ratings
+                    rating={4}
+                    variant="primary"
+                    totalstars={5}
+                    size={15}
+                  />
+                </SelectItem>
+                <SelectItem value="3">
+                  <Ratings
+                    rating={3}
+                    variant="primary"
+                    totalstars={5}
+                    size={15}
+                  />
+                </SelectItem>
+                <SelectItem value="2">
+                  <Ratings
+                    rating={2}
+                    variant="primary"
+                    totalstars={5}
+                    size={15}
+                  />
+                </SelectItem>
+                <SelectItem value="1">
+                  <Ratings
+                    rating={1}
+                    variant="primary"
+                    totalstars={5}
+                    size={15}
+                  />
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>
