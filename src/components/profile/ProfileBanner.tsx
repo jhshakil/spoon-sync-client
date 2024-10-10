@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { TUserData } from "@/types/user.types";
 import { Pencil } from "lucide-react";
 
@@ -27,9 +27,21 @@ const ProfileBanner = ({ user }: Props) => {
           <div>
             <h1 className="text-2xl font-medium">{user.name}</h1>
             <p className="text-sm">
-              <span className="text-primary">200</span> followers |{" "}
-              <span className="text-primary">100</span> following
+              <span className="text-primary">
+                {user?.follower?.length || 0}
+              </span>{" "}
+              followers |{" "}
+              <span className="text-primary">
+                {user?.following?.length || 0}
+              </span>{" "}
+              following
             </p>
+            <Button size={"sm"} className="mt-2 px-5">
+              Follow
+            </Button>
+            {/* <Button variant={"outline"} size={"sm"} className="mt-2 px-5">
+              UnFollow
+            </Button> */}
           </div>
         </div>
         <div className="flex flex-col items-end gap-3">

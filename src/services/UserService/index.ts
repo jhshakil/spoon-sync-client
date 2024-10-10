@@ -4,7 +4,7 @@ import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
 import { revalidateTag } from "next/cache";
 import { getCurrentUser } from "../AuthService";
-import { TAdminData, TUser, TUserData } from "@/types/user.types";
+import { TAdminData, TFollow, TUser, TUserData } from "@/types/user.types";
 
 export const getUser = async (email: string): Promise<{ data: TUserData }> => {
   const fetchOption = {
@@ -167,5 +167,43 @@ export const deleteAdmin = async (email: string): Promise<any> => {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to delete admin");
+  }
+};
+
+export const getAllUnFollow = async (
+  email: string
+): Promise<{ data: TUserData[] }> => {
+  const fetchOption = {
+    next: {
+      tags: ["unfollow"],
+    },
+  };
+
+  const res = await fetch(
+    `${envConfig.baseUrl}/user/unfollow-user/${email}`,
+    fetchOption
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to get data");
+  }
+
+  return res.json();
+};
+
+export const followUser = async (payload: TFollow): Promise<any> => {
+  const user = await getCurrentUser();
+  try {
+    const { data } = await axiosInstance.post(
+      `/user/follow/${user?.email}`,
+      payload
+    );
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to follow");
   }
 };

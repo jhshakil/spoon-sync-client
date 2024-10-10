@@ -1,12 +1,13 @@
 import {
   deleteAdmin,
   deleteUser,
+  followUser,
   updateAdmin,
   updateAdminStatus,
   updateUser,
   updateUserStatus,
 } from "@/services/UserService";
-import { TUser } from "@/types/user.types";
+import { TFollow, TUser } from "@/types/user.types";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -81,6 +82,19 @@ export const useDeleteAdmin = () => {
     mutationFn: async (postData) => await deleteAdmin(postData),
     onSuccess: () => {
       toast.success("Admin delete successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useFollowUser = () => {
+  return useMutation<any, Error, TFollow>({
+    mutationKey: ["FOLLOW"],
+    mutationFn: async (postData) => await followUser(postData),
+    onSuccess: () => {
+      toast.success("Follow successfully");
     },
     onError: (error) => {
       toast.error(error.message);

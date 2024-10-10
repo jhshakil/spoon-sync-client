@@ -25,8 +25,10 @@ const HomeProfile = ({ user }: Props) => {
         <div className="flex flex-col items-center gap-1">
           <h1 className="text-2xl font-medium">{user.name}</h1>
           <p className="text-sm">
-            <span className="text-primary">200</span> followers |{" "}
-            <span className="text-primary">100</span> following
+            <span className="text-primary">{user?.follower?.length || 0}</span>{" "}
+            followers |{" "}
+            <span className="text-primary">{user?.following?.length || 0}</span>{" "}
+            following
           </p>
         </div>
         <div>

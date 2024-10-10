@@ -18,9 +18,16 @@ export type TUserData = {
   phoneNumber: string;
   gender: "male" | "female";
   dateOfBirth: string;
-  isPro: string;
-  following: string;
-  follower: string;
+  totalFollower: string;
+  totalFollowing: string;
+  follower: TFollow[];
+  following: TFollow[];
+  isPro: boolean;
+  proValidity: string;
+};
+
+export type TFollow = {
+  userId: string;
 };
 
 export type TAdminData = {
