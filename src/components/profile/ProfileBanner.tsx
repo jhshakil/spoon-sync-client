@@ -50,7 +50,7 @@ const ProfileBanner = ({ user }: Props) => {
             </Button> */}
           </div>
         </div>
-        <div className="flex justify-end items-center gap-3">
+        <div className="flex justify-end items-top gap-3">
           <Link
             href={"/user/profile/create-post"}
             className={cn(buttonVariants())}

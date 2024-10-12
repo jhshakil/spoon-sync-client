@@ -113,7 +113,7 @@ const Page = () => {
                   <FormControl>
                     <Input placeholder="Enter your email" {...field} />
                   </FormControl>
-
+                  <FormDescription>Email must be unique</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -141,7 +141,7 @@ const Page = () => {
                   <FormControl>
                     <Input placeholder="Enter your username" {...field} />
                   </FormControl>
-                  <FormDescription></FormDescription>
+                  <FormDescription>Username must be unique</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

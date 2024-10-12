@@ -95,7 +95,7 @@ const PostComment = ({ userId, post }: Props) => {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="w-[700px] max-w-[700px] h-[90vh] p-0">
+      <DialogContent className="w-full md:w-[700px] max-w-full md:max-w-[700px] h-[90vh] p-0">
         <ScrollArea className="h-[70vh] px-8 pt-4">
           <DialogHeader>
             <DialogTitle></DialogTitle>
@@ -172,7 +172,7 @@ const PostComment = ({ userId, post }: Props) => {
             ))}
           </div>
         </ScrollArea>
-        <DialogFooter className="items-center gap-4 px-8">
+        <DialogFooter className="items-center gap-4 px-2 md:px-8">
           <Textarea
             className="resize-none h-[100px]"
             value={commentText}

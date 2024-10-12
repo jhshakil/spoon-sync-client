@@ -17,7 +17,7 @@ export const useUserRegistration = () => {
       toast.success("User registration successful");
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error("Something went wrong, Please add valid information");
     },
   });
 };
@@ -30,7 +30,7 @@ export const useAdminRegistration = () => {
       toast.success("Admin registration successful");
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error("Something went wrong, Please add valid information");
     },
   });
 };

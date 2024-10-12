@@ -1,5 +1,6 @@
-"use client"; // Error boundaries must be Client Components
+"use client";
 
+import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 
 export default function Error({
@@ -10,21 +11,18 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
+    <div className="bg-background p-11 rounded-lg mt-5">
+      <h2 className="text-[42px] text-center">Something went wrong!</h2>
+      <p className="text-center text-2xl">
+        Failed to connect server. We will fixed this problem soon
+      </p>
+      <div className="flex mt-5 justify-center">
+        <Button onClick={() => reset()}>Try again</Button>
+      </div>
     </div>
   );
 }

@@ -99,93 +99,94 @@ const PostCard = ({ post, userId, userEmail }: Props) => {
   };
 
   return (
-    <div className="bg-background px-8 py-4 rounded-lg flex flex-col gap-3">
-      <div className="flex justify-between items-start gap-11">
-        <div>
+    <div className="bg-background px-3 md:px-8 py-4 rounded-lg flex flex-col gap-3">
+      <div>
+        <div className="flex justify-between items-start gap-11">
           <h2
             className={cn(
-              "text-[36px]",
+              "text-[25px] md:text-[36px]",
               post?.status === "draft" ? "text-muted-foreground" : ""
             )}
           >
             {post.title}
           </h2>
-          <div className="flex gap-3 items-center">
-            <div className="flex gap-2 items-center">
-              <Avatar className="w-8 h-8">
-                <AvatarImage
-                  src={
-                    typeof post?.userId === "object"
-                      ? post?.userId?.profileImage
-                      : ""
-                  }
-                  alt="Profile"
-                  className="object-cover"
-                />
-                <AvatarFallback className="uppercase">{"S"}</AvatarFallback>
-              </Avatar>
-              <p>
-                {typeof post?.userId === "object" ? post?.userId?.name : ""}
-              </p>
-            </div>{" "}
-            |
-            <div className="text-xs text-primary">
-              {format(post?.createdAt as string, "PPP")}
-            </div>{" "}
-            |{" "}
+          <div className="flex justify-end items-center gap-3">
+            <Link
+              href={`/post/${stringToSlug(post.title)}?key=${post._id}`}
+              className={cn(buttonVariants())}
+            >
+              See More
+            </Link>
+            {userEmail === post.email ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant={"secondary"} size={"icon"}>
+                    <EllipsisVertical />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-[90px]">
+                  <DropdownMenuItem asChild>
+                    <Link href={`/user/post/${post._id}/edit`}>Edit</Link>
+                  </DropdownMenuItem>
+                  {post.status === "published" ? (
+                    <DropdownMenuItem
+                      onClick={() => updatePost(post._id as string, "draft")}
+                    >
+                      Draft
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem
+                      onClick={() =>
+                        updatePost(post._id as string, "published")
+                      }
+                    >
+                      Published
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem
+                    onClick={() => deletePost(post?._id as string)}
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+        <div className="flex gap-3 items-center">
+          <div className="flex gap-2 items-center">
+            <Avatar className="w-8 h-8">
+              <AvatarImage
+                src={
+                  typeof post?.userId === "object"
+                    ? post?.userId?.profileImage
+                    : ""
+                }
+                alt="Profile"
+                className="object-cover"
+              />
+              <AvatarFallback className="uppercase">{"S"}</AvatarFallback>
+            </Avatar>
+            <p>{typeof post?.userId === "object" ? post?.userId?.name : ""}</p>{" "}
+          </div>
+          |
+          <div>
             <div className="flex gap-2 items-center">
               <Ratings
                 rating={Number(post?.averageRatting || 0)}
                 variant="primary"
                 totalstars={5}
-                size={15}
+                size={12}
               />{" "}
-              <span>({post?.averageRatting || 0})</span>
+              <span className="text-xs">({post?.averageRatting || 0})</span>
+            </div>
+            <div className="text-xs text-primary">
+              {format(post?.createdAt as string, "PPP")}
             </div>
           </div>
-        </div>
-        <div className="flex justify-end items-center gap-3">
-          <Link
-            href={`/post/${stringToSlug(post.title)}?key=${post._id}`}
-            className={cn(buttonVariants())}
-          >
-            See More
-          </Link>
-          {userEmail === post.email ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant={"secondary"} size={"icon"}>
-                  <EllipsisVertical />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-[90px]">
-                <DropdownMenuItem asChild>
-                  <Link href={`/user/post/${post._id}/edit`}>Edit</Link>
-                </DropdownMenuItem>
-                {post.status === "published" ? (
-                  <DropdownMenuItem
-                    onClick={() => updatePost(post._id as string, "draft")}
-                  >
-                    Draft
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem
-                    onClick={() => updatePost(post._id as string, "published")}
-                  >
-                    Published
-                  </DropdownMenuItem>
-                )}
-
-                <DropdownMenuItem
-                  onClick={() => deletePost(post?._id as string)}
-                >
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            ""
-          )}
         </div>
       </div>
 
@@ -200,7 +201,7 @@ const PostCard = ({ post, userId, userEmail }: Props) => {
         className="w-full h-full aspect-video object-cover"
         alt="thumbnail"
       />
-      <div className="flex justify-between items-center mt-3">
+      <div className="flex flex-wrap justify-between gap-5 items-center mt-3">
         <div className="flex gap-8">
           <button
             disabled={!userId}
