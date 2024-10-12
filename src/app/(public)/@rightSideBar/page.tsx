@@ -4,6 +4,8 @@ import { getAllUnFollow } from "@/services/UserService";
 
 const Page = async () => {
   const user = await getCurrentUser();
+
+  if (!user) return null;
   const { data: unFollowUser } = await getAllUnFollow(user?.email as string);
 
   return (

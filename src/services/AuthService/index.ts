@@ -88,3 +88,27 @@ export const getNewAccessToken = async () => {
     throw new Error("Failed to get new access token");
   }
 };
+
+export const forgetPassword = async (payload: {
+  email: string;
+}): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post("/auth/forget-password", payload);
+
+    return data;
+  } catch (error: any) {
+    throw new Error("User not found");
+  }
+};
+
+export const resetPassword = async (payload: {
+  email: string;
+}): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post("/auth/reset-password", payload);
+
+    return data;
+  } catch (error: any) {
+    throw new Error("User not found");
+  }
+};

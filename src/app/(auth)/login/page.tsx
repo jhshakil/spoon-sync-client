@@ -119,6 +119,17 @@ const Page = () => {
             </Button>
           </form>
         </Form>
+        <div>
+          <p className="text-sm">
+            Forget Password{" "}
+            <Link
+              href={"/forget-password"}
+              className={cn(buttonVariants({ variant: "link" }), "px-1.5")}
+            >
+              click here
+            </Link>
+          </p>
+        </div>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
