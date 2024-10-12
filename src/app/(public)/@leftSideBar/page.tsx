@@ -1,5 +1,6 @@
 import HomeAdminProfile from "@/components/profile/HomeAdminProfile";
 import HomeProfile from "@/components/profile/HomeProfile";
+import HomeSidebarNavigation from "@/components/shared/HomeSidebarNavigation";
 import { getCurrentUser } from "@/services/AuthService";
 import { getAdmin, getUser } from "@/services/UserService";
 import { TAdminData, TUserData } from "@/types/user.types";
@@ -23,12 +24,13 @@ const Page = async () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {user?.role === "user" ? (
         <HomeProfile user={userData} />
       ) : (
         <HomeAdminProfile user={adminUserData} />
       )}
+      <HomeSidebarNavigation />
     </div>
   );
 };

@@ -11,7 +11,6 @@ const Page = async () => {
 
   const { data: userData } = await getUser(user?.email as string);
 
-  // const posts = [];
   const { data: posts } = await getUserPost();
 
   return (

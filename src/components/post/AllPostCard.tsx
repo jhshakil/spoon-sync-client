@@ -11,15 +11,18 @@ const AllPostCard = async ({ posts }: Props) => {
   const user = await getCurrentUser();
 
   let userId: string = "";
+  let userEmail: string = "";
 
   try {
     if (user?.role === "admin") {
       const { data } = await getAdmin(user?.email as string);
 
       userId = data?._id || "";
+      userEmail = data?.email || "";
     } else {
       const { data } = await getUser(user?.email as string);
       userId = data?._id || "";
+      userEmail = data?.email || "";
     }
   } catch (error: any) {
     console.log(error.message);
@@ -33,10 +36,14 @@ const AllPostCard = async ({ posts }: Props) => {
     );
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 flex flex-col gap-4">
       {posts?.map((post: TPost) => (
         <div key={post._id}>
-          <PostCard post={post} userId={userId as string} />
+          <PostCard
+            post={post}
+            userId={userId as string}
+            userEmail={userEmail}
+          />
         </div>
       ))}
     </div>

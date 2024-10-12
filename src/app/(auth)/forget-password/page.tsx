@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import { useForgetPassword } from "@/hooks/auth.hook";
+import { logout } from "@/services/AuthService";
+import { useUser } from "@/context/user.provider";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -31,6 +33,7 @@ const FormSchema = z.object({
 
 const Page = () => {
   const { mutate: forgettingPassword } = useForgetPassword();
+  const { setIsLoading: userLoading } = useUser();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -42,6 +45,8 @@ const Page = () => {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       forgettingPassword(data);
+      logout();
+      userLoading(true);
     } catch (err: any) {
       toast.error("Something went wrong");
     }

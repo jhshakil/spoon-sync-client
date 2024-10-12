@@ -194,7 +194,7 @@ const EditProfile = ({ user }: Props) => {
                   <FormControl>
                     <Textarea
                       className="min-h-[120px]"
-                      placeholder="Enter your phone bio"
+                      placeholder="Enter your bio"
                       {...field}
                     />
                   </FormControl>

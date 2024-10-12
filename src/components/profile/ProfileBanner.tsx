@@ -3,7 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
 import { TUserData } from "@/types/user.types";
-import { Pencil } from "lucide-react";
+import { EllipsisVertical, Pencil } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 type Props = {
   user: TUserData;
@@ -44,21 +50,28 @@ const ProfileBanner = ({ user }: Props) => {
             </Button> */}
           </div>
         </div>
-        <div className="flex flex-col items-end gap-3">
-          <Link
-            href={"/user/profile/edit"}
-            className={cn(
-              buttonVariants({ variant: "secondary", size: "icon" })
-            )}
-          >
-            <Pencil className="w-4 h-4" />
-          </Link>
+        <div className="flex justify-end items-center gap-3">
           <Link
             href={"/user/profile/create-post"}
             className={cn(buttonVariants())}
           >
             Create Post
           </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant={"secondary"} size={"icon"}>
+                <EllipsisVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[90px]">
+              <DropdownMenuItem asChild>
+                <Link href={`/user/profile/edit`}>Edit Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={`/forget-password`}>Change Password</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

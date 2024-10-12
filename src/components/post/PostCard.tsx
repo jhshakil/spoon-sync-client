@@ -35,9 +35,10 @@ import {
 type Props = {
   post: TPost;
   userId: string;
+  userEmail: string;
 };
 
-const PostCard = ({ post, userId }: Props) => {
+const PostCard = ({ post, userId, userEmail }: Props) => {
   const { mutate: handleDeletePost } = useDeletePost();
   const { mutate: updatingPost } = useUpdatePost();
   const { mutate: updatingAction } = useUpdatePostAction();
@@ -99,11 +100,11 @@ const PostCard = ({ post, userId }: Props) => {
 
   return (
     <div className="bg-background px-8 py-4 rounded-lg flex flex-col gap-3">
-      <div className="flex justify-between gap-11">
+      <div className="flex justify-between items-start gap-11">
         <div>
           <h2
             className={cn(
-              "text-[42px]",
+              "text-[36px]",
               post?.status === "draft" ? "text-muted-foreground" : ""
             )}
           >
@@ -150,35 +151,41 @@ const PostCard = ({ post, userId }: Props) => {
           >
             See More
           </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"secondary"} size={"icon"}>
-                <EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[90px]">
-              <DropdownMenuItem asChild>
-                <Link href={`/user/post/${post._id}/edit`}>Edit</Link>
-              </DropdownMenuItem>
-              {post.status === "published" ? (
-                <DropdownMenuItem
-                  onClick={() => updatePost(post._id as string, "draft")}
-                >
-                  Draft
+          {userEmail === post.email ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant={"secondary"} size={"icon"}>
+                  <EllipsisVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="min-w-[90px]">
+                <DropdownMenuItem asChild>
+                  <Link href={`/user/post/${post._id}/edit`}>Edit</Link>
                 </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem
-                  onClick={() => updatePost(post._id as string, "published")}
-                >
-                  Published
-                </DropdownMenuItem>
-              )}
+                {post.status === "published" ? (
+                  <DropdownMenuItem
+                    onClick={() => updatePost(post._id as string, "draft")}
+                  >
+                    Draft
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem
+                    onClick={() => updatePost(post._id as string, "published")}
+                  >
+                    Published
+                  </DropdownMenuItem>
+                )}
 
-              <DropdownMenuItem onClick={() => deletePost(post?._id as string)}>
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  onClick={() => deletePost(post?._id as string)}
+                >
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
