@@ -26,14 +26,14 @@ import {
 } from "../ui/card";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { UploadCloud, X } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { imageUploadDB } from "@/lib/firebaseConfig";
 import { v4 } from "uuid";
-import { useUpdateAdmin, useUpdateUser } from "@/hooks/user.hook";
+import { useUpdateAdmin } from "@/hooks/user.hook";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   user: TAdminData;
@@ -136,14 +136,11 @@ const AdminProfile = ({ user }: Props) => {
               <p className="text-sm">Profile Image</p>
               <div className="flex items-center gap-8 mt-5">
                 {user?.profileImage || preview ? (
-                  <Avatar className="w-[100px] h-[100px]">
-                    <AvatarImage
-                      src={user?.profileImage || preview}
-                      alt="profile"
-                      className="object-cover"
-                    />
-                    <AvatarFallback>P</AvatarFallback>
-                  </Avatar>
+                  <AvatarComponent
+                    src={user?.profileImage || preview}
+                    className="w-[100px] h-[100px]"
+                    badgeClassName="w-4 h-4"
+                  />
                 ) : (
                   ""
                 )}

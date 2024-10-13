@@ -1,8 +1,8 @@
 import { TAdminData } from "@/types/user.types";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   user: TAdminData | null;
@@ -13,14 +13,11 @@ const HomeAdminProfile = ({ user }: Props) => {
   return (
     <div className="bg-background p-4 rounded-lg">
       <div className="flex flex-col items-center gap-4">
-        <Avatar className="w-[100px] h-[100px]">
-          <AvatarImage
-            src={user?.profileImage}
-            alt="Profile Photo"
-            className="object-cover"
-          />
-          <AvatarFallback className="uppercase">{user?.name[0]}</AvatarFallback>
-        </Avatar>
+        <AvatarComponent
+          src={user?.profileImage}
+          className="w-[100px] h-[100px]"
+          badgeClassName="w-4 h-4"
+        />
         <div className="flex flex-col items-center gap-1">
           <h1 className="text-2xl font-medium">{user.name}</h1>
         </div>

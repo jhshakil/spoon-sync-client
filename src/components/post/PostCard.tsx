@@ -22,7 +22,6 @@ import {
 import PostComment from "./PostComment";
 import { format } from "date-fns";
 import { Ratings } from "../ui/rattings";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   Select,
   SelectContent,
@@ -31,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   post: TPost;
@@ -158,18 +158,16 @@ const PostCard = ({ post, userId, userEmail }: Props) => {
         </div>
         <div className="flex gap-3 items-center">
           <div className="flex gap-2 items-center">
-            <Avatar className="w-8 h-8">
-              <AvatarImage
-                src={
-                  typeof post?.userId === "object"
-                    ? post?.userId?.profileImage
-                    : ""
-                }
-                alt="Profile"
-                className="object-cover"
-              />
-              <AvatarFallback className="uppercase">{"S"}</AvatarFallback>
-            </Avatar>
+            <AvatarComponent
+              src={
+                typeof post?.userId === "object"
+                  ? post?.userId?.profileImage
+                  : ""
+              }
+              isPro={
+                typeof post?.userId === "object" ? post?.userId?.isPro : false
+              }
+            />
             <p>{typeof post?.userId === "object" ? post?.userId?.name : ""}</p>{" "}
           </div>
           |

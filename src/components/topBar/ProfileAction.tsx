@@ -12,12 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/user.provider";
 import { protectedRoutes } from "@/constant";
 import { TAdminData, TUserData } from "@/types/user.types";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   username: string;
@@ -64,16 +64,16 @@ const ProfileAction = ({ username, role, userData }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar>
-          <AvatarImage
-            src={userData?.profileImage}
-            alt="Profile"
-            className="object-cover"
+        <div>
+          <AvatarComponent
+            src={userData?.profileImage || ""}
+            className=""
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            isPro={role === "user" ? userData?.isPro : false}
+            fallback={userData?.name?.[0] || "S"}
           />
-          <AvatarFallback className="uppercase">
-            {userData?.name?.[0] || "S"}
-          </AvatarFallback>
-        </Avatar>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>@{username}</DropdownMenuLabel>

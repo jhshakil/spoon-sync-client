@@ -33,8 +33,8 @@ import {
   useUpdateComment,
 } from "@/hooks/post.hook";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { format } from "date-fns";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   userId: string;
@@ -107,20 +107,18 @@ const PostComment = ({ userId, post }: Props) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Avatar className="w-8 h-8">
-                        <AvatarImage
-                          src={
-                            typeof item.userId === "object"
-                              ? item?.userId?.profileImage
-                              : ""
-                          }
-                          alt="Profile"
-                          className="object-cover"
-                        />
-                        <AvatarFallback className="uppercase">
-                          {"S"}
-                        </AvatarFallback>
-                      </Avatar>
+                      <AvatarComponent
+                        src={
+                          typeof item.userId === "object"
+                            ? item?.userId?.profileImage
+                            : ""
+                        }
+                        isPro={
+                          typeof item?.userId === "object"
+                            ? item?.userId?.isPro
+                            : false
+                        }
+                      />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>

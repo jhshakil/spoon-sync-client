@@ -41,7 +41,7 @@ import {
 import { useUpdateUser } from "@/hooks/user.hook";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   user: TUserData;
@@ -206,14 +206,12 @@ const EditProfile = ({ user }: Props) => {
               <p className="text-sm">Profile Image</p>
               <div className="flex items-center gap-8 mt-5">
                 {user?.profileImage || preview ? (
-                  <Avatar className="w-[100px] h-[100px]">
-                    <AvatarImage
-                      src={preview || user?.profileImage}
-                      alt="profile"
-                      className="object-cover"
-                    />
-                    <AvatarFallback>P</AvatarFallback>
-                  </Avatar>
+                  <AvatarComponent
+                    src={preview || user?.profileImage}
+                    isPro={user?.isPro}
+                    className="w-[100px] h-[100px]"
+                    badgeClassName="w-4 h-4"
+                  />
                 ) : (
                   ""
                 )}

@@ -2,10 +2,10 @@
 
 import { TUserData } from "@/types/user.types";
 import { Separator } from "../ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserPlus } from "lucide-react";
 import { Button } from "../ui/button";
 import { useFollowUser } from "@/hooks/user.hook";
+import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   users: TUserData[];
@@ -29,14 +29,7 @@ const UnFollowedUser = ({ users }: Props) => {
               className="flex justify-between items-center gap-2"
             >
               <div className="flex gap-3 items-center">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage
-                    src={user.profileImage}
-                    alt="Profile"
-                    className="object-cover"
-                  />
-                  <AvatarFallback className="uppercase">{"S"}</AvatarFallback>
-                </Avatar>
+                <AvatarComponent src={user.profileImage} isPro={user?.isPro} />
                 <h3>{user.name}</h3>
               </div>
               <Button
