@@ -4,6 +4,7 @@ import {
   createRatting,
   deleteComment,
   deletePost,
+  getAllPostClient,
   updateAction,
   updateComment,
   updatePost,
@@ -24,6 +25,17 @@ export const useCreatePost = () => {
     onSuccess: () => {
       toast.success("Post created successfully");
     },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useGetAllPost = () => {
+  return useMutation<any, Error, { searchTerm: string; email?: string }>({
+    mutationKey: ["GET_ALL_POST"],
+    mutationFn: async (postData) => await getAllPostClient(postData),
+    onSuccess: () => {},
     onError: (error) => {
       toast.error(error.message);
     },

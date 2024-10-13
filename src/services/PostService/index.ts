@@ -9,7 +9,6 @@ import {
   TPostRatting,
 } from "@/types/post.types";
 import { revalidateTag } from "next/cache";
-import { getCurrentUser } from "../AuthService";
 
 export const createFullPost = async (payload: TPost): Promise<any> => {
   try {
@@ -37,6 +36,21 @@ export const getAllPost = async (email = "") => {
   );
 
   return res.json();
+};
+
+export const getAllPostClient = async (payload: {
+  searchTerm: string;
+  email?: string;
+}): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.get(
+      `/post?user=${payload?.email}&searchTerm=${payload.searchTerm}`
+    );
+
+    return data;
+  } catch (error: any) {
+    throw new Error("Failed to update post");
+  }
 };
 
 export const getUserPost = async (email: string) => {

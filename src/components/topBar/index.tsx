@@ -30,7 +30,7 @@ const TopBar = async () => {
           <Logo />
         </div>
         <div className="col-span-3 flex justify-center">
-          <MainSearch />
+          <MainSearch userEmail={user?.email} />
         </div>
         <div className="flex justify-end gap-2 items-center">
           <TopBarAction
