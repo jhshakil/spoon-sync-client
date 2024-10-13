@@ -57,15 +57,20 @@ const ProfileBanner = ({ user, edit = true, isFollower = false }: Props) => {
             </p>
             <div className="flex gap-4 items-center">
               {edit ? (
-                <Link
-                  href={`/user/profile/upgrade-pro`}
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "mt-2 px-5"
-                  )}
-                >
-                  <Crown className="mr-2 text-primary w-4 h-4" /> Upgrade to Pro
-                </Link>
+                user?.isPro ? (
+                  ""
+                ) : (
+                  <Link
+                    href={`/user/profile/upgrade-pro`}
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "sm" }),
+                      "mt-2 px-5"
+                    )}
+                  >
+                    <Crown className="mr-2 text-primary w-4 h-4" /> Upgrade to
+                    Pro
+                  </Link>
+                )
               ) : isFollower ? (
                 <>
                   <Button
