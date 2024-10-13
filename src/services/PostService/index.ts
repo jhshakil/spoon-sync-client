@@ -38,6 +38,21 @@ export const getAllPost = async (email = "") => {
   return res.json();
 };
 
+export const getMostUpVotePost = async () => {
+  const fetchOption = {
+    next: {
+      tags: ["posts"],
+    },
+  };
+
+  const res = await fetch(
+    `${envConfig.baseUrl}/post?sort=-totalUpVote`,
+    fetchOption
+  );
+
+  return res.json();
+};
+
 export const getAllPostClient = async (payload: {
   searchTerm: string;
   email?: string;

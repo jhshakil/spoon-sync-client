@@ -53,7 +53,7 @@ const Page = () => {
   }
 
   return (
-    <Card className="w-[500px] mx-auto my-8">
+    <Card className="w-full md:w-[500px] mx-auto my-8">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Forget Password</CardTitle>
         <CardDescription>

@@ -44,7 +44,6 @@ const DashboardNav = async () => {
       <div className="border-b border-border">
         <div className="py-2 mb-2 flex justify-between gap-8">
           <h2 className="text-2xl">Admin</h2>
-          <Menu />
         </div>
       </div>
       <div>

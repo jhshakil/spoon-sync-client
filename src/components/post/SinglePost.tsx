@@ -8,13 +8,13 @@ type Props = {
 const SinglePost = ({ post }: Props) => {
   if (!post)
     return (
-      <div className="bg-background p-8 text-center text-xl rounded-lg">
+      <div className="bg-background p-3 md:p-8 text-center text-xl rounded-lg">
         No post found
       </div>
     );
   return (
-    <div className="bg-background p-8 rounded-lg flex flex-col gap-3">
-      <h1 className="text-[42px]">{post.title}</h1>
+    <div className="bg-background p-3 md:p-8 rounded-lg flex flex-col gap-3">
+      <h1 className="text-[25px] md:text-[36px]">{post.title}</h1>
       <Image
         width={800}
         height={800}

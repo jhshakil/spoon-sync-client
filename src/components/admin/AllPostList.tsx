@@ -38,7 +38,7 @@ const AllPostList = ({ posts }: Props) => {
     updatingPost(data);
   };
   return (
-    <div>
+    <div className="w-[300px] md:w-[700px] lg:w-full overflow-x-scroll whitespace-nowrap">
       <Table>
         <TableCaption>A list of Posts</TableCaption>
         <TableHeader>

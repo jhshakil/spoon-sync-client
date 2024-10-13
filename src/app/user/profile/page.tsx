@@ -18,14 +18,18 @@ const Page = async () => {
   const { data: allFollowUser } = await getAllFollow(user?.email as string);
 
   return (
-    <div className="grid grid-cols-3 gap-4 justify-between">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 justify-between">
       <ScrollArea className="col-span-2 h-[90vh] px-3">
         <div className="flex flex-col gap-6">
           <ProfileBanner user={userData} />
+          <div className="lg:hidden">
+            <ProfileAbout userData={userData} />
+            <AllFollowedUser users={allFollowUser} />
+          </div>
           <AllPostCard posts={posts} />
         </div>
       </ScrollArea>
-      <ScrollArea className="h-[90vh] px-3">
+      <ScrollArea className="h-[90vh] px-3 hidden lg:block">
         <ProfileAbout userData={userData} />
         <AllFollowedUser users={allFollowUser} />
       </ScrollArea>

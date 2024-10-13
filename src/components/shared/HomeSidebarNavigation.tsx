@@ -1,7 +1,12 @@
-import { Mail, SquareChartGantt } from "lucide-react";
+import { Home, Mail, SquareChartGantt } from "lucide-react";
 import Link from "next/link";
 
 const Navigation = [
+  {
+    name: "Home",
+    path: "/",
+    icon: <Home className="text-primary" />,
+  },
   {
     name: "About us",
     path: "/about-us",

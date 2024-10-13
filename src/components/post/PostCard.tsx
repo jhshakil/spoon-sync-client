@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { TPost, TPostRatting, TPostStatus } from "@/types/post.types";
 import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { Button } from "../ui/button";
 import Image from "next/image";
 
 import {
@@ -111,22 +111,19 @@ const PostCard = ({ post, userId, userEmail, isUserPro }: Props) => {
   return (
     <div className="bg-background px-3 md:px-8 py-4 rounded-lg flex flex-col gap-3">
       <div>
-        <div className="flex justify-between items-start gap-11">
-          <h2
-            className={cn(
-              "text-[25px] md:text-[36px]",
-              post?.status === "draft" ? "text-muted-foreground" : ""
-            )}
-          >
-            {post.title} {post.isPro ? <Badge>Pro</Badge> : ""}
-          </h2>
-          <div className="flex justify-end items-center gap-3">
-            <Link
-              href={`/post/${stringToSlug(post.title)}?key=${post._id}`}
-              className={cn(buttonVariants())}
+        <div className="flex justify-between items-start gap-2 md:gap-11">
+          <Link href={`/post/${stringToSlug(post.title)}?key=${post._id}`}>
+            <h2
+              className={cn(
+                "text-[25px] md:text-[36px] hover:text-primary",
+                post?.status === "draft" ? "text-muted-foreground" : ""
+              )}
             >
-              See More
-            </Link>
+              {post.title} {post.isPro ? <Badge>Pro</Badge> : ""}
+            </h2>
+          </Link>
+
+          <div className="flex justify-end items-center gap-3">
             {userEmail === post.email ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

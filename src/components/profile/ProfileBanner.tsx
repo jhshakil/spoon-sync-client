@@ -34,7 +34,7 @@ const ProfileBanner = ({ user, edit = true, isFollower = false }: Props) => {
 
   return (
     <div className="bg-background p-4 rounded-lg">
-      <div className="flex justify-between gap-11">
+      <div className="flex flex-wrap md:flex-nowrap justify-between gap-11">
         <div className="flex items-center gap-4">
           <AvatarComponent
             src={user?.profileImage}
@@ -90,7 +90,7 @@ const ProfileBanner = ({ user, edit = true, isFollower = false }: Props) => {
           </div>
         </div>
         {edit ? (
-          <div className="flex justify-end items-top gap-3">
+          <div className="flex justify-end items-top gap-3 w-full md:w-auto">
             <Link
               href={"/user/profile/create-post"}
               className={cn(buttonVariants())}
