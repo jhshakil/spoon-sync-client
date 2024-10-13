@@ -35,6 +35,7 @@ import {
 import { useState } from "react";
 import { format } from "date-fns";
 import AvatarComponent from "../shared/AvatarComponent";
+import Link from "next/link";
 
 type Props = {
   userId: string;
@@ -98,7 +99,7 @@ const PostComment = ({ userId, post }: Props) => {
       <DialogContent className="w-full md:w-[700px] max-w-full md:max-w-[700px] h-[90vh] p-0">
         <ScrollArea className="h-[70vh] px-8 pt-4">
           <DialogHeader>
-            <DialogTitle></DialogTitle>
+            <DialogTitle>{post.title}</DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
           <div className="py-4 flex flex-col gap-4">
@@ -107,18 +108,26 @@ const PostComment = ({ userId, post }: Props) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <AvatarComponent
-                        src={
+                      <Link
+                        href={`/user/${
                           typeof item.userId === "object"
-                            ? item?.userId?.profileImage
+                            ? item?.userId?.email
                             : ""
-                        }
-                        isPro={
-                          typeof item?.userId === "object"
-                            ? item?.userId?.isPro
-                            : false
-                        }
-                      />
+                        }`}
+                      >
+                        <AvatarComponent
+                          src={
+                            typeof item.userId === "object"
+                              ? item?.userId?.profileImage
+                              : ""
+                          }
+                          isPro={
+                            typeof item?.userId === "object"
+                              ? item?.userId?.isPro
+                              : false
+                          }
+                        />
+                      </Link>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>

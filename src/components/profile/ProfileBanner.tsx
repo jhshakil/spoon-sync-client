@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
@@ -10,13 +12,26 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import AvatarComponent from "../shared/AvatarComponent";
+import { useFollowUser, useUnFollowUser } from "@/hooks/user.hook";
 
 type Props = {
   user: TUserData;
   edit?: boolean;
+  isFollower?: boolean;
 };
 
-const ProfileBanner = ({ user, edit = true }: Props) => {
+const ProfileBanner = ({ user, edit = true, isFollower = false }: Props) => {
+  const { mutate: followingUser } = useFollowUser();
+  const { mutate: unFollowingUser } = useUnFollowUser();
+
+  const followUser = (userId: string) => {
+    followingUser({ userId });
+  };
+
+  const unFollowUser = (userId: string) => {
+    unFollowingUser({ userId });
+  };
+
   return (
     <div className="bg-background p-4 rounded-lg">
       <div className="flex justify-between gap-11">
@@ -51,16 +66,25 @@ const ProfileBanner = ({ user, edit = true }: Props) => {
                 >
                   <Crown className="mr-2 text-primary w-4 h-4" /> Upgrade to Pro
                 </Link>
-              ) : (
+              ) : isFollower ? (
                 <>
-                  <Button size={"sm"} className="mt-2 px-5">
-                    Follow
+                  <Button
+                    variant={"outline"}
+                    size={"sm"}
+                    className="mt-2 px-5"
+                    onClick={() => unFollowUser(user?._id)}
+                  >
+                    UnFollow
                   </Button>
-
-                  {/* <Button variant={"outline"} size={"sm"} className="mt-2 px-5">
-              UnFollow
-            </Button> */}
                 </>
+              ) : (
+                <Button
+                  size={"sm"}
+                  className="mt-2 px-5"
+                  onClick={() => followUser(user?._id)}
+                >
+                  Follow
+                </Button>
               )}
             </div>
           </div>
