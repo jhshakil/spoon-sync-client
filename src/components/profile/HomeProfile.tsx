@@ -36,8 +36,8 @@ const HomeProfile = ({ user }: Props) => {
         <div>
           <Separator className="my-4" />
           <div className="flex h-5 items-center space-x-4 text-sm">
-            <div>256 Posts</div>
-            <Separator orientation="vertical" />
+            {/* <div>256 Posts</div> */}
+            {/* <Separator orientation="vertical" /> */}
             <Link
               href={`/user/profile`}
               className={cn(buttonVariants({ variant: "link" }))}
