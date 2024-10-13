@@ -48,6 +48,7 @@ const AllUserList = ({ users }: Props) => {
             <TableHead>Profile Image</TableHead>
             <TableHead>Phone Number</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>isPro</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -69,6 +70,7 @@ const AllUserList = ({ users }: Props) => {
               </TableCell>
               <TableCell>{user.phoneNumber}</TableCell>
               <TableCell>{user?.authId?.status}</TableCell>
+              <TableCell>{`${user?.isPro || false}`}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
                 <ConfirmDialog
                   titleMessage="Confirm Message"

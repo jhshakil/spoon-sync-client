@@ -9,6 +9,7 @@ export type TPost = {
   content: string;
   tags: TTag[];
   status: TPostStatus;
+  isPro?: boolean;
   totalUpVote?: string;
   totalDownVote?: string;
   totalComment?: string;

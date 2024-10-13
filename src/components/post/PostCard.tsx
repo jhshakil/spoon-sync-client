@@ -31,14 +31,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AvatarComponent from "../shared/AvatarComponent";
+import { Badge } from "../ui/badge";
 
 type Props = {
   post: TPost;
   userId: string;
   userEmail: string;
+  isUserPro?: boolean;
 };
 
-const PostCard = ({ post, userId, userEmail }: Props) => {
+const PostCard = ({ post, userId, userEmail, isUserPro }: Props) => {
   const { mutate: handleDeletePost } = useDeletePost();
   const { mutate: updatingPost } = useUpdatePost();
   const { mutate: updatingAction } = useUpdatePostAction();
@@ -61,6 +63,14 @@ const PostCard = ({ post, userId, userEmail }: Props) => {
     const data = {
       _id: id,
       status,
+    };
+    updatingPost(data);
+  };
+
+  const updatePro = (id: string, value: boolean) => {
+    const data = {
+      _id: id,
+      isPro: value,
     };
     updatingPost(data);
   };
@@ -108,7 +118,7 @@ const PostCard = ({ post, userId, userEmail }: Props) => {
               post?.status === "draft" ? "text-muted-foreground" : ""
             )}
           >
-            {post.title}
+            {post.title} {post.isPro ? <Badge>Pro</Badge> : ""}
           </h2>
           <div className="flex justify-end items-center gap-3">
             <Link
@@ -142,6 +152,24 @@ const PostCard = ({ post, userId, userEmail }: Props) => {
                     >
                       Published
                     </DropdownMenuItem>
+                  )}
+
+                  {isUserPro ? (
+                    post?.isPro ? (
+                      <DropdownMenuItem
+                        onClick={() => updatePro(post?._id as string, false)}
+                      >
+                        Make Free
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem
+                        onClick={() => updatePro(post?._id as string, true)}
+                      >
+                        Make Pro
+                      </DropdownMenuItem>
+                    )
+                  ) : (
+                    ""
                   )}
 
                   <DropdownMenuItem

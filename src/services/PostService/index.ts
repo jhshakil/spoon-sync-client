@@ -24,14 +24,17 @@ export const createFullPost = async (payload: TPost): Promise<any> => {
   }
 };
 
-export const getAllPost = async () => {
+export const getAllPost = async (email = "") => {
   const fetchOption = {
     next: {
       tags: ["posts"],
     },
   };
 
-  const res = await fetch(`${envConfig.baseUrl}/post`, fetchOption);
+  const res = await fetch(
+    `${envConfig.baseUrl}/post?user=${email}`,
+    fetchOption
+  );
 
   return res.json();
 };

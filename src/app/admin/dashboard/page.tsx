@@ -1,8 +1,10 @@
 import AllPostList from "@/components/admin/AllPostList";
+import { getCurrentUser } from "@/services/AuthService";
 import { getAllPost } from "@/services/PostService";
 
 const Page = async () => {
-  const { data: posts } = await getAllPost();
+  const user = await getCurrentUser();
+  const { data: posts } = await getAllPost(user?.email);
 
   return (
     <div className="p-4">

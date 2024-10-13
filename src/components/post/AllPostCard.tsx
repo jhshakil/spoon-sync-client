@@ -12,6 +12,7 @@ const AllPostCard = async ({ posts }: Props) => {
 
   let userId: string = "";
   let userEmail: string = "";
+  let isUserPro: boolean = false;
 
   try {
     if (user?.role === "admin") {
@@ -23,6 +24,7 @@ const AllPostCard = async ({ posts }: Props) => {
       const { data } = await getUser(user?.email as string);
       userId = data?._id || "";
       userEmail = data?.email || "";
+      isUserPro = data?.isPro || false;
     }
   } catch (error: any) {
     console.log(error.message);
@@ -43,6 +45,7 @@ const AllPostCard = async ({ posts }: Props) => {
             post={post}
             userId={userId as string}
             userEmail={userEmail}
+            isUserPro={isUserPro}
           />
         </div>
       ))}

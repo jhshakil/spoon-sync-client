@@ -24,7 +24,9 @@ const AvatarComponent = ({
     <div className="relative">
       <Avatar className={cn(className)}>
         <AvatarImage src={src} alt={alt} className="object-cover" />
-        <AvatarFallback className="uppercase">{fallback}</AvatarFallback>
+        <AvatarFallback className="uppercase flex justify-center items-center w-full h-full bg-secondary">
+          {fallback}
+        </AvatarFallback>
       </Avatar>
       {isPro ? (
         <div className="absolute top-0 right-0 p-0.5 bg-background rounded-full">

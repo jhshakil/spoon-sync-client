@@ -47,6 +47,7 @@ const AllPostList = ({ posts }: Props) => {
             <TableHead>Title</TableHead>
             <TableHead>Thumbnail</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>isPro</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -67,6 +68,7 @@ const AllPostList = ({ posts }: Props) => {
                 </div>
               </TableCell>
               <TableCell>{post.status}</TableCell>
+              <TableCell>{`${post?.isPro}`}</TableCell>
               <TableCell className="flex justify-end gap-4 items-center h-[64px]">
                 <ConfirmDialog
                   titleMessage="Confirm Message"
