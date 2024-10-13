@@ -39,18 +39,14 @@ export const getAllPost = async (email = "") => {
   return res.json();
 };
 
-export const getUserPost = async () => {
-  const user = await getCurrentUser();
+export const getUserPost = async (email: string) => {
   const fetchOption = {
     next: {
       tags: ["posts"],
     },
   };
 
-  const res = await fetch(
-    `${envConfig.baseUrl}/post/${user?.email}`,
-    fetchOption
-  );
+  const res = await fetch(`${envConfig.baseUrl}/post/${email}`, fetchOption);
 
   return res.json();
 };

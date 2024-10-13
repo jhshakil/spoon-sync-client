@@ -13,9 +13,10 @@ import AvatarComponent from "../shared/AvatarComponent";
 
 type Props = {
   user: TUserData;
+  edit?: boolean;
 };
 
-const ProfileBanner = ({ user }: Props) => {
+const ProfileBanner = ({ user, edit = true }: Props) => {
   return (
     <div className="bg-background p-4 rounded-lg">
       <div className="flex justify-between gap-11">
@@ -40,48 +41,57 @@ const ProfileBanner = ({ user }: Props) => {
               following
             </p>
             <div className="flex gap-4 items-center">
-              <Button size={"sm"} className="mt-2 px-5">
-                Follow
-              </Button>
+              {edit ? (
+                <Link
+                  href={`/user/profile/upgrade-pro`}
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" }),
+                    "mt-2 px-5"
+                  )}
+                >
+                  <Crown className="mr-2 text-primary w-4 h-4" /> Upgrade to Pro
+                </Link>
+              ) : (
+                <>
+                  <Button size={"sm"} className="mt-2 px-5">
+                    Follow
+                  </Button>
 
-              {/* <Button variant={"outline"} size={"sm"} className="mt-2 px-5">
+                  {/* <Button variant={"outline"} size={"sm"} className="mt-2 px-5">
               UnFollow
             </Button> */}
-              <Link
-                href={`/user/profile/upgrade-pro`}
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" }),
-                  "mt-2 px-5"
-                )}
-              >
-                <Crown className="mr-2 text-primary w-4 h-4" /> Upgrade to Pro
-              </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
-        <div className="flex justify-end items-top gap-3">
-          <Link
-            href={"/user/profile/create-post"}
-            className={cn(buttonVariants())}
-          >
-            Create Post
-          </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"secondary"} size={"icon"}>
-                <EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[90px]">
-              <DropdownMenuItem asChild>
-                <Link href={`/user/profile/edit`}>Edit Profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href={`/forget-password`}>Change Password</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {edit ? (
+          <div className="flex justify-end items-top gap-3">
+            <Link
+              href={"/user/profile/create-post"}
+              className={cn(buttonVariants())}
+            >
+              Create Post
+            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant={"secondary"} size={"icon"}>
+                  <EllipsisVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="min-w-[90px]">
+                <DropdownMenuItem asChild>
+                  <Link href={`/user/profile/edit`}>Edit Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href={`/forget-password`}>Change Password</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

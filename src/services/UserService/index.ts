@@ -191,6 +191,27 @@ export const getAllUnFollow = async (
   return res.json();
 };
 
+export const getAllFollow = async (
+  email: string
+): Promise<{ data: TUserData[] }> => {
+  const fetchOption = {
+    next: {
+      tags: ["follow"],
+    },
+  };
+
+  const res = await fetch(
+    `${envConfig.baseUrl}/user/follow-user/${email}`,
+    fetchOption
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to get data");
+  }
+
+  return res.json();
+};
+
 export const followUser = async (payload: TFollow): Promise<any> => {
   const user = await getCurrentUser();
   try {
@@ -205,5 +226,22 @@ export const followUser = async (payload: TFollow): Promise<any> => {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to follow");
+  }
+};
+
+export const unFollowUser = async (payload: TFollow): Promise<any> => {
+  const user = await getCurrentUser();
+  try {
+    const { data } = await axiosInstance.post(
+      `/user/unfollow/${user?.email}`,
+      payload
+    );
+
+    revalidateTag("posts");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to un-follow");
   }
 };

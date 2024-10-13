@@ -2,9 +2,9 @@
 
 import { TUserData } from "@/types/user.types";
 import { Separator } from "../ui/separator";
-import { UserPlus } from "lucide-react";
+import { UserMinus } from "lucide-react";
 import { Button } from "../ui/button";
-import { useFollowUser } from "@/hooks/user.hook";
+import { useUnFollowUser } from "@/hooks/user.hook";
 import AvatarComponent from "../shared/AvatarComponent";
 import Link from "next/link";
 
@@ -12,15 +12,15 @@ type Props = {
   users: TUserData[];
 };
 
-const UnFollowedUser = ({ users }: Props) => {
-  const { mutate: followingUser } = useFollowUser();
+const AllFollowedUser = ({ users }: Props) => {
+  const { mutate: followingUser } = useUnFollowUser();
 
   const followUser = (userId: string) => {
     followingUser({ userId });
   };
   return (
-    <div className="bg-background p-4 rounded-lg">
-      <h3 className="text-lg font-medium">Who to follow</h3>
+    <div className="bg-background p-4 rounded-lg mt-5">
+      <h3 className="text-lg font-medium">You are following</h3>
       <Separator className="my-3" />
       {users && users.length ? (
         <div className="flex flex-col gap-4">
@@ -43,7 +43,7 @@ const UnFollowedUser = ({ users }: Props) => {
                 size={"icon"}
                 onClick={() => followUser(user._id)}
               >
-                <UserPlus className="text-primary" />
+                <UserMinus className="text-primary" />
               </Button>
             </div>
           ))}
@@ -55,4 +55,4 @@ const UnFollowedUser = ({ users }: Props) => {
   );
 };
 
-export default UnFollowedUser;
+export default AllFollowedUser;

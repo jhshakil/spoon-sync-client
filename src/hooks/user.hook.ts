@@ -2,6 +2,7 @@ import {
   deleteAdmin,
   deleteUser,
   followUser,
+  unFollowUser,
   updateAdmin,
   updateAdminStatus,
   updateUser,
@@ -95,6 +96,19 @@ export const useFollowUser = () => {
     mutationFn: async (postData) => await followUser(postData),
     onSuccess: () => {
       toast.success("Follow successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useUnFollowUser = () => {
+  return useMutation<any, Error, TFollow>({
+    mutationKey: ["UN_FOLLOW"],
+    mutationFn: async (postData) => await unFollowUser(postData),
+    onSuccess: () => {
+      toast.success("UnFollow successfully");
     },
     onError: (error) => {
       toast.error(error.message);
