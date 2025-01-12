@@ -22,44 +22,75 @@ const roleBaseRoutes = {
   ],
 };
 
+// Helper function to check if the path is a static file
+const isStaticFile = (pathname: string) => {
+  return /\.(jpg|jpeg|png|gif|ico|css|js|svg)$/.test(pathname);
+};
+
+// Helper function to check if the path is a system path
+const isSystemPath = (pathname: string) => {
+  return (
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/api/") ||
+    pathname.startsWith("/public/")
+  );
+};
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Skip middleware for static files and system paths
+  if (isStaticFile(pathname) || isSystemPath(pathname)) {
+    return NextResponse.next();
+  }
 
   // Allow public routes without authentication
   if (AuthRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // Get the current logged-in user
-  const user = await getCurrentUser();
+  try {
+    // Get the current logged-in user
+    const user = await getCurrentUser();
 
-  // Redirect unauthenticated users to the login page
-  if (!user) {
-    return NextResponse.redirect(
-      new URL(`/login?redirect=${pathname}`, request.url)
-    );
-  }
+    // Redirect unauthenticated users to the login page
+    if (!user) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
 
-  // Allow access to general authenticated routes
-  if (GeneralAuthenticatedRoutes.includes(pathname)) {
-    return NextResponse.next();
-  }
-
-  // Validate role-based access
-  if (user.role && roleBaseRoutes[user.role as Role]) {
-    const allowedRoutes = roleBaseRoutes[user.role as Role];
-
-    // Allow access if the user's role matches the current route
-    if (allowedRoutes.some((route) => route.test(pathname))) {
+    // Allow access to general authenticated routes
+    if (GeneralAuthenticatedRoutes.includes(pathname)) {
       return NextResponse.next();
     }
-  }
 
-  // Redirect unauthorized users to the home page
-  return NextResponse.redirect(new URL("/", request.url));
+    // Validate role-based access
+    if (user.role && roleBaseRoutes[user.role as Role]) {
+      const allowedRoutes = roleBaseRoutes[user.role as Role];
+
+      // Allow access if the user's role matches the current route
+      if (allowedRoutes.some((route) => route.test(pathname))) {
+        return NextResponse.next();
+      }
+    }
+
+    // Log unauthorized access attempts
+    console.warn(
+      `Unauthorized access attempt to ${pathname} by user with role ${user.role}`
+    );
+
+    // Redirect unauthorized users to the home page
+    return NextResponse.redirect(new URL("/", request.url));
+  } catch (error) {
+    // Handle any errors that occur during authentication
+    console.error("Middleware authentication error:", error);
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("error", "auth_failed");
+    return NextResponse.redirect(loginUrl);
+  }
 }
 
-// Middleware applies to all routes except static assets
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|public/).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
