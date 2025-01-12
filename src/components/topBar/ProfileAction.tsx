@@ -57,7 +57,7 @@ const ProfileAction = ({ username, role, userData }: Props) => {
     userLoading(true);
 
     if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push("/");
+      router.push("/login");
     }
   };
 

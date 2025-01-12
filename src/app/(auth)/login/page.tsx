@@ -30,6 +30,7 @@ import { useUserLogin } from "@/hooks/auth.hook";
 import { useUser } from "@/context/user.provider";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Loading from "@/components/shared/Loading";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -75,84 +76,122 @@ const Page = () => {
   }, [isPending, isSuccess]);
 
   return (
-    <Card className="w-full md:w-[500px] mx-auto my-8">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Fill your data below to login your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
-                  </FormControl>
+    <>
+      {isPending ? (
+        <Loading />
+      ) : (
+        <Card className="w-full md:w-[500px] mx-auto my-8">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardDescription>
+              Fill your data below to login your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className="flex items-center flex-wrap gap-4">
+              <Button
+                onClick={() =>
+                  form.reset({
+                    email: "admin1@gmail.com",
+                    password: "12345678",
+                  })
+                }
+              >
+                Admin
+              </Button>
+              <Button
+                onClick={() =>
+                  form.reset({ email: "j1@gmail.com", password: "12345678" })
+                }
+              >
+                User
+              </Button>
+              <Button
+                onClick={() =>
+                  form.reset({
+                    email: "jhshakil11275@gmail.com",
+                    password: "12345678",
+                  })
+                }
+              >
+                Pro User
+              </Button>
+            </div>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your email" {...field} />
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your password" {...field} />
-                  </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your password" {...field} />
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </form>
-        </Form>
-        <div>
-          <p className="text-sm">
-            Forget Password{" "}
-            <Link
-              href={"/forget-password"}
-              className={cn(buttonVariants({ variant: "link" }), "px-1.5")}
-            >
-              click here
-            </Link>
-          </p>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or Register
-            </span>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="justify-center">
-        <p className="text-sm">
-          If you do not have an account
-          <Link
-            href={"/registration"}
-            className={cn(buttonVariants({ variant: "link" }), "px-1.5")}
-          >
-            click here
-          </Link>
-        </p>
-      </CardFooter>
-    </Card>
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </form>
+            </Form>
+            <div>
+              <p className="text-sm">
+                Forget Password{" "}
+                <Link
+                  href={"/forget-password"}
+                  className={cn(buttonVariants({ variant: "link" }), "px-1.5")}
+                >
+                  click here
+                </Link>
+              </p>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or Register
+                </span>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter className="justify-center">
+            <p className="text-sm">
+              If you do not have an account
+              <Link
+                href={"/registration"}
+                className={cn(buttonVariants({ variant: "link" }), "px-1.5")}
+              >
+                click here
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      )}
+    </>
   );
 };
 
