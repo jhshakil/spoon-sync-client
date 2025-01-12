@@ -101,6 +101,16 @@ const Page = () => {
               </Button>
               <Button
                 onClick={() =>
+                  form.reset({
+                    email: "admin@jhshakil.com",
+                    password: "admin1234",
+                  })
+                }
+              >
+                Super Admin
+              </Button>
+              <Button
+                onClick={() =>
                   form.reset({ email: "j1@gmail.com", password: "12345678" })
                 }
               >
