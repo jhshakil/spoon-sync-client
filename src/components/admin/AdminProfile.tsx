@@ -94,7 +94,7 @@ const AdminProfile = ({ user }: Props) => {
   }, [isPending, isSuccess]);
 
   return (
-    <Card className="w-3/4 mx-auto my-8">
+    <Card className="w-full md:w-3/4 mx-auto my-8">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Edit your Profile</CardTitle>
         <CardDescription>
@@ -104,7 +104,7 @@ const AdminProfile = ({ user }: Props) => {
       <CardContent className="grid gap-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="name"
@@ -134,7 +134,7 @@ const AdminProfile = ({ user }: Props) => {
             </div>
             <div>
               <p className="text-sm">Profile Image</p>
-              <div className="flex items-center gap-8 mt-5">
+              <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-8 mt-5">
                 {user?.profileImage || preview ? (
                   <AvatarComponent
                     src={user?.profileImage || preview}
@@ -144,38 +144,40 @@ const AdminProfile = ({ user }: Props) => {
                 ) : (
                   ""
                 )}
-                <label
-                  {...getRootProps()}
-                  className="relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 mt-2"
-                >
-                  <div className=" text-center">
-                    <div className=" border p-2 rounded-md max-w-min mx-auto">
-                      <UploadCloud size={20} />
+                <div className="md:col-span-2">
+                  <label
+                    {...getRootProps()}
+                    className="relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 mt-2"
+                  >
+                    <div className=" text-center">
+                      <div className=" border p-2 rounded-md max-w-min mx-auto">
+                        <UploadCloud size={20} />
+                      </div>
+
+                      <p className="mt-2 text-sm text-gray-600">
+                        <span className="font-semibold">Drag files</span>
+                      </p>
+                      {acceptedFiles[0]?.name ? (
+                        <p className="text-xs text-gray-500">
+                          {acceptedFiles[0].name}
+                        </p>
+                      ) : (
+                        <p className="text-xs text-gray-500">
+                          Click to upload files &#40;files should be under 10 MB
+                          &#41;
+                        </p>
+                      )}
                     </div>
+                  </label>
 
-                    <p className="mt-2 text-sm text-gray-600">
-                      <span className="font-semibold">Drag files</span>
-                    </p>
-                    {acceptedFiles[0]?.name ? (
-                      <p className="text-xs text-gray-500">
-                        {acceptedFiles[0].name}
-                      </p>
-                    ) : (
-                      <p className="text-xs text-gray-500">
-                        Click to upload files &#40;files should be under 10 MB
-                        &#41;
-                      </p>
-                    )}
-                  </div>
-                </label>
-
-                <Input
-                  {...getInputProps()}
-                  id="dropzone-file"
-                  accept="image/png, image/jpeg"
-                  type="file"
-                  className="hidden"
-                />
+                  <Input
+                    {...getInputProps()}
+                    id="dropzone-file"
+                    accept="image/png, image/jpeg"
+                    type="file"
+                    className="hidden"
+                  />
+                </div>
               </div>
             </div>
             <div className="flex justify-end items-center gap-4">

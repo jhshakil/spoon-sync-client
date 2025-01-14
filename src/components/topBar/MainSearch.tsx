@@ -53,10 +53,10 @@ const MainSearch = ({ userEmail }: Props) => {
         onChange={(e) => sampleData(e.target.value)}
       />
       {allSearchData && allSearchData?.length ? (
-        <div className="absolute top-[50px] bg-background w-full p-4 z-20">
-          <ul>
+        <div className="absolute top-[50px] bg-background w-full p-4 z-20 shadow-lg">
+          <ul className="divide-y-2">
             {allSearchData?.map((item: TPost, i: number) => (
-              <li key={`search_item-${i}`} onClick={() => setALlSearchData([])}>
+              <li key={`search_item-${i}`} onClick={() => setALlSearchData([])} className="py-2">
                 <Link
                   href={`/post/${stringToSlug(item.title)}?key=${item._id}`}
                 >

@@ -1,6 +1,7 @@
 import HomeAdminProfile from "@/components/profile/HomeAdminProfile";
 import HomeProfile from "@/components/profile/HomeProfile";
 import HomeSidebarNavigation from "@/components/shared/HomeSidebarNavigation";
+import UpgradeToProCard from "@/components/shared/UpgradeToProCard";
 import { getCurrentUser } from "@/services/AuthService";
 import { getAdmin, getUser } from "@/services/UserService";
 import { TAdminData, TUserData } from "@/types/user.types";
@@ -31,6 +32,9 @@ const Default = async () => {
         <HomeAdminProfile user={adminUserData} />
       )}
       <HomeSidebarNavigation />
+      {
+        userData?.isPro ? "" : <UpgradeToProCard />
+      }
     </div>
   );
 };

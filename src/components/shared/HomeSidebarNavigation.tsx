@@ -1,4 +1,4 @@
-import { Home, Mail, SquareChartGantt } from "lucide-react";
+import { Home, Mail, ReceiptText, SquareChartGantt, User } from "lucide-react";
 import Link from "next/link";
 
 const Navigation = [
@@ -8,9 +8,24 @@ const Navigation = [
     icon: <Home className="text-primary" />,
   },
   {
+    name: "All Users",
+    path: "/all-user",
+    icon: <User className="text-primary" />,
+  },
+  {
     name: "About us",
     path: "/about-us",
     icon: <SquareChartGantt className="text-primary" />,
+  },
+  {
+    name: "Terms & conditions",
+    path: "/terms-and-conditions",
+    icon: <ReceiptText className="text-primary" />,
+  },
+  {
+    name: "Privacy policy",
+    path: "/privacy-policy",
+    icon: <ReceiptText className="text-primary" />,
   },
   {
     name: "Contact us",
