@@ -25,7 +25,7 @@ const TopBar = async () => {
 
   return (
     <header className="w-full py-4 bg-background">
-      <div className="container mx-auto px-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-between items-center gap-3 md:gap-8">
+      <div className="container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-between items-center gap-3 md:gap-8">
         <div>
           <Logo />
         </div>

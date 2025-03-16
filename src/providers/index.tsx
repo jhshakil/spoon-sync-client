@@ -13,7 +13,9 @@ const Providers = ({ children, ...props }: ThemeProviderProps) => {
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <Toaster />
-        <NextThemesProvider {...props}>{children}</NextThemesProvider>
+        <NextThemesProvider {...props} defaultTheme="light">
+          {children}
+        </NextThemesProvider>
       </UserProvider>
     </QueryClientProvider>
   );

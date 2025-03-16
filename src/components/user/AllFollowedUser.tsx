@@ -19,7 +19,7 @@ const AllFollowedUser = ({ users }: Props) => {
     followingUser({ userId });
   };
   return (
-    <div className="bg-background p-4 rounded-lg mt-5">
+    <div className="bg-background p-4 rounded-lg mt-4">
       <h3 className="text-lg font-medium">You are following</h3>
       <Separator className="my-3" />
       {users && users.length ? (

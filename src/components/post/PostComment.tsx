@@ -96,7 +96,7 @@ const PostComment = ({ userId, post }: Props) => {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="w-full md:w-[700px] max-w-full md:max-w-[700px] h-[90vh] p-0">
+      <DialogContent className="w-full md:w-[700px] max-w-full md:max-w-[700px] h-[calc(100vh-95px)] p-0">
         <ScrollArea className="h-[70vh] px-8 pt-4">
           <DialogHeader>
             <DialogTitle>{post.title}</DialogTitle>

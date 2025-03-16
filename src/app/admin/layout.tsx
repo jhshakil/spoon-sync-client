@@ -29,7 +29,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         minSize={10}
         className="!basis-auto lg:!basis-0 hidden lg:block"
       >
-        <ScrollArea className="h-[90vh]">
+        <ScrollArea className="h-[calc(100vh-95px)]">
           <DashboardNav />
         </ScrollArea>
       </ResizablePanel>
@@ -52,7 +52,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <DrawerTitle className="hidden"></DrawerTitle>
               <DrawerDescription className="hidden"></DrawerDescription>
             </DrawerHeader>
-            <ScrollArea className="h-[90vh] w-[280px] px-3">
+            <ScrollArea className="h-[calc(100vh-95px)] w-[280px] px-3">
               <div className="w-full">
                 <DashboardNav />
               </div>
@@ -62,7 +62,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Drawer>
       <ResizableHandle className="hidden lg:block" />
       <ResizablePanel defaultSize={80} className="!basis-auto lg:!basis-0">
-        <ScrollArea className="h-[90vh]">{children}</ScrollArea>
+        <ScrollArea className="h-[calc(100vh-95px)]">{children}</ScrollArea>
       </ResizablePanel>
     </ResizablePanelGroup>
   );

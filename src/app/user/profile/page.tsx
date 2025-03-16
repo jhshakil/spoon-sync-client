@@ -19,8 +19,8 @@ const Page = async () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 justify-between">
-      <ScrollArea className="col-span-2 h-[90vh] px-3">
-        <div className="flex flex-col gap-6">
+      <ScrollArea className="col-span-2 h-[calc(100vh-95px)]">
+        <div className="flex flex-col gap-4">
           <ProfileBanner user={userData} />
           <div className="lg:hidden">
             <ProfileAbout userData={userData} />
@@ -29,7 +29,7 @@ const Page = async () => {
           <AllPostCard posts={posts} />
         </div>
       </ScrollArea>
-      <ScrollArea className="h-[90vh] px-3 hidden lg:block">
+      <ScrollArea className="h-[calc(100vh-95px)] hidden lg:block">
         <ProfileAbout userData={userData} />
         <AllFollowedUser users={allFollowUser} />
       </ScrollArea>

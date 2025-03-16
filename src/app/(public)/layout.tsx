@@ -23,7 +23,7 @@ const Layout = ({
 }) => {
   return (
     <div className="flex flex-col lg:flex-row justify-between gap-4 mt-5">
-      <ScrollArea className="h-[90vh] w-[280px] px-3 hidden lg:block">
+      <ScrollArea className="h-[calc(100vh-95px)] w-[280px] hidden lg:block">
         <div className="w-full">{leftSideBar}</div>
       </ScrollArea>
       <Drawer direction="left">
@@ -32,7 +32,7 @@ const Layout = ({
             <Menu />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="w-[280px] mt-8">
+        <DrawerContent className="w-[280px] mt-8 rounded-none">
           <div>
             <DrawerHeader>
               <div className="flex justify-end">
@@ -45,16 +45,16 @@ const Layout = ({
               <DrawerTitle className="hidden"></DrawerTitle>
               <DrawerDescription className="hidden"></DrawerDescription>
             </DrawerHeader>
-            <ScrollArea className="h-[90vh] w-[280px] px-3">
+            <ScrollArea className="h-[calc(100vh-70px)] w-[280px]">
               <div className="w-full">{leftSideBar}</div>
             </ScrollArea>
           </div>
         </DrawerContent>
       </Drawer>
-      <ScrollArea className="h-[90vh] flex-1 md:px-3">
+      <ScrollArea className="h-[calc(100vh-95px)] flex-1">
         <div>{children}</div>
       </ScrollArea>
-      <ScrollArea className="h-[90vh] w-[280px] px-3 hidden xl:block">
+      <ScrollArea className="h-[calc(100vh-95px)] w-[280px] hidden xl:block">
         <div className="w-full">{rightSideBar}</div>
       </ScrollArea>
     </div>
