@@ -1,8 +1,10 @@
 "use server";
 
 import { envConfig } from "@/config/envConfig";
+import axiosInstance from "@/lib/axiosInstance";
 import { TGroup } from "@/types/group.type";
-import { TUserData } from "@/types/user.types";
+import { revalidateTag } from "next/cache";
+import { toast } from "sonner";
 
 export const getAllDisJoinGroup = async (
   email: string
@@ -19,7 +21,7 @@ export const getAllDisJoinGroup = async (
   );
 
   if (!res.ok) {
-    throw new Error("Failed to get data");
+    toast("Failed to get data");
   }
 
   return res.json();
@@ -40,8 +42,21 @@ export const getAllJoinGroup = async (
   );
 
   if (!res.ok) {
-    throw new Error("Failed to get data");
+    toast("Failed to get data");
   }
 
   return res.json();
+};
+
+export const createGroup = async (payload: TGroup): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post("/group", payload);
+
+    revalidateTag("groups");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    toast("Failed to create group");
+  }
 };

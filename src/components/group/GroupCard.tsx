@@ -6,10 +6,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 type Props = {
   groups: TGroup[];
   onJoinGroup: (groupId: string) => void;
-  userId: string;
+  isJoined: boolean;
+  userEmail: string;
 };
 
-const GroupCard = ({ groups, onJoinGroup, userId }: Props) => {
+const GroupCard = ({ groups, onJoinGroup, isJoined, userEmail }: Props) => {
   const formatMemberCount = (count: number) => {
     if (count >= 1000000) {
       return `${(count / 1000000).toFixed(1)}M`;
@@ -18,16 +19,6 @@ const GroupCard = ({ groups, onJoinGroup, userId }: Props) => {
       return `${(count / 1000).toFixed(0)}K`;
     }
     return count.toString();
-  };
-
-  const isMember = (group: TGroup) => {
-    const result = group.members.find((el) => (el._id = userId));
-    const result2 = group.admins.find((el) => (el._id = userId));
-    if (result || result2) {
-      return true;
-    } else {
-      return false;
-    }
   };
 
   return (
@@ -81,13 +72,17 @@ const GroupCard = ({ groups, onJoinGroup, userId }: Props) => {
             </div>
           </div>
 
-          <Button
-            variant={isMember(group) ? "outline" : "default"}
-            className="w-20"
-            onClick={() => onJoinGroup(group._id as string)}
-          >
-            {isMember(group) ? "Leave" : "Join"}
-          </Button>
+          {group.admins.find((el) => el.email === userEmail) ? (
+            ""
+          ) : (
+            <Button
+              variant={isJoined ? "outline" : "default"}
+              className="w-20"
+              onClick={() => onJoinGroup(group._id as string)}
+            >
+              {isJoined ? "Leave" : "Join"}
+            </Button>
+          )}
         </div>
       ))}
     </>
