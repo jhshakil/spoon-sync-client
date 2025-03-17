@@ -6,7 +6,17 @@ import { getCurrentUser } from "./services/AuthService";
 const AuthRoutes = ["/login", "/registration"];
 
 // Routes that require authentication but are not role-based
-const GeneralAuthenticatedRoutes = ["/", "/about-us", "/contact-us", "/post", "/terms-and-conditions", "/privacy-policy", "/all-user", /^\/post(\/[^/]+)?$/,];
+const GeneralAuthenticatedRoutes = [
+  "/",
+  "/about-us",
+  "/contact-us",
+  "/post",
+  "/terms-and-conditions",
+  "/privacy-policy",
+  "/all-user",
+  "/all-group",
+  /^\/post(\/[^/]+)?$/,
+];
 
 type Role = keyof typeof roleBaseRoutes;
 
@@ -64,8 +74,9 @@ export async function middleware(request: NextRequest) {
     // if (GeneralAuthenticatedRoutes.includes(pathname)) {
     //   return NextResponse.next();
     // }
-    const isGeneralAuthenticatedRoute = GeneralAuthenticatedRoutes.some((route) =>
-      typeof route === "string" ? route === pathname : route.test(pathname)
+    const isGeneralAuthenticatedRoute = GeneralAuthenticatedRoutes.some(
+      (route) =>
+        typeof route === "string" ? route === pathname : route.test(pathname)
     );
 
     if (isGeneralAuthenticatedRoute) {

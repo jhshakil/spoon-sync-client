@@ -19,9 +19,12 @@ const AllUserCardList = ({ users }: Props) => {
     followingUser({ userId });
   };
   return (
-    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+    <div className="grid gap-6 md:grid-cols-2 2xl:grid-cols-3">
       {users?.map((user) => (
-        <div key={user._id} className="group flex flex-col items-center border border-border rounded-lg p-4">
+        <div
+          key={user._id}
+          className="group flex flex-col items-center border border-border rounded-lg p-4"
+        >
           <div className="relative mb-3">
             <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-background">
               <Image

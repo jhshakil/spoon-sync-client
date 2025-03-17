@@ -1,4 +1,11 @@
-import { Home, Mail, ReceiptText, SquareChartGantt, User } from "lucide-react";
+import {
+  Group,
+  Home,
+  Mail,
+  ReceiptText,
+  SquareChartGantt,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 
 const Navigation = [
@@ -11,6 +18,11 @@ const Navigation = [
     name: "All Users",
     path: "/all-user",
     icon: <User className="text-primary" />,
+  },
+  {
+    name: "All Groups",
+    path: "/all-group",
+    icon: <Group className="text-primary" />,
   },
   {
     name: "About us",

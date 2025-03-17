@@ -13,4 +13,5 @@ export const protectedRoutes = [
   "/terms-and-condition",
   "/privacy-policy",
   "/all-users",
+  "/all-group",
 ];
