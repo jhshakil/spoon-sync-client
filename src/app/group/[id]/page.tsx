@@ -1,3 +1,4 @@
+import GroupBanner from "@/components/group/GroupBanner";
 import AllPostCard from "@/components/post/AllPostCard";
 import ProfileAbout from "@/components/profile/ProfileAbout";
 import ProfileBanner from "@/components/profile/ProfileBanner";
@@ -35,7 +36,7 @@ const Page = async ({ params }: Props) => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 justify-between">
       <ScrollArea className="col-span-2 h-[calc(100vh-95px)]">
         <div className="flex flex-col gap-4">
-          <ProfileBanner user={userData} />
+          <GroupBanner group={group} />
           <div className="lg:hidden">
             {/* <ProfileAbout userData={userData} />
             <AllFollowedUser users={allFollowUser} /> */}
