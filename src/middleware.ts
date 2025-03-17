@@ -15,7 +15,8 @@ const GeneralAuthenticatedRoutes = [
   "/privacy-policy",
   "/all-user",
   "/all-group",
-  /^\/post(\/[^/]+)?$/,
+  /^\/group\/[^/]+$/, // Regex for dynamic routes like /all-group/:id
+  /^\/post(\/[^/]+)?$/, // Regex for dynamic routes like /post/:id
 ];
 
 type Role = keyof typeof roleBaseRoutes;
@@ -71,9 +72,6 @@ export async function middleware(request: NextRequest) {
     }
 
     // Allow access to general authenticated routes
-    // if (GeneralAuthenticatedRoutes.includes(pathname)) {
-    //   return NextResponse.next();
-    // }
     const isGeneralAuthenticatedRoute = GeneralAuthenticatedRoutes.some(
       (route) =>
         typeof route === "string" ? route === pathname : route.test(pathname)

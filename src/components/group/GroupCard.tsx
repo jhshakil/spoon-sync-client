@@ -36,7 +36,7 @@ const GroupCard = ({ groups, onJoinGroup, isJoined, userEmail }: Props) => {
 
             <div className="flex flex-col">
               <Link
-                href={`/groups/${group._id}`}
+                href={`/group/${group._id}`}
                 className="font-semibold hover:underline"
               >
                 {group.name}
