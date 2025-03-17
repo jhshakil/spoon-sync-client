@@ -18,10 +18,10 @@ export default function Error({
     <div className="bg-background p-11 rounded-lg mt-5">
       <h2 className="text-[42px] text-center">Something went wrong!</h2>
       <p className="text-center text-2xl">
-        Failed to connect server. We will fixed this problem soon
+        Failed to connect to the server. We will fix this problem soon.
       </p>
       <div className="flex mt-5 justify-center">
-        <Button onClick={() => reset()}>Try again</Button>
+        <Button onClick={() => window.location.reload()}>Try again</Button>
       </div>
     </div>
   );

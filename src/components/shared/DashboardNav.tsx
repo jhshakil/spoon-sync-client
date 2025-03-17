@@ -1,6 +1,9 @@
-import { getCurrentUser } from "@/services/AuthService";
-import { Menu } from "lucide-react";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { TUser } from "@/types/user.types";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const ANav = [
   {
@@ -37,20 +40,40 @@ const SNav = [
   },
 ];
 
-const DashboardNav = async () => {
-  const user = await getCurrentUser();
+type Props = {
+  user: TUser;
+};
+
+const DashboardNav = ({ user }: Props) => {
+  const pathname = usePathname();
+  const navItems = user?.role === "admin" ? ANav : SNav;
+
+  const isActive = (path: string) => {
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
+
   return (
     <div className="p-4">
       <div className="border-b border-border">
         <div className="py-2 mb-2 flex justify-between gap-8">
-          <h2 className="text-2xl">Admin</h2>
+          <h2 className="text-2xl font-bold">Admin Panel</h2>
         </div>
       </div>
-      <div>
-        <ul>
-          {(user?.role === "admin" ? ANav : SNav)?.map((el) => (
-            <li key={el.path} className="py-2 border-b border-border">
-              <Link href={el.path}>{el.name}</Link>
+      <div className="mt-4">
+        <ul className="space-y-1">
+          {navItems.map((item) => (
+            <li key={item.path}>
+              <Link
+                href={item.path}
+                className={cn(
+                  "flex items-center px-3 py-2 text-sm rounded-md transition-colors",
+                  isActive(item.path)
+                    ? "bg-primary text-primary-foreground font-medium"
+                    : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>

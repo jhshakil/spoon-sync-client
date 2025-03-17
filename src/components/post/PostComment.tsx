@@ -179,7 +179,7 @@ const PostComment = ({ userId, post }: Props) => {
             ))}
           </div>
         </ScrollArea>
-        <DialogFooter className="items-center gap-4 px-2 md:px-8">
+        <DialogFooter className="items-center gap-4 px-2 md:px-8 mb-4">
           <Textarea
             className="resize-none h-[100px]"
             value={commentText}

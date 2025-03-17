@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { getCurrentUser } from "@/services/AuthService";
+import { TUser } from "@/types/user.types";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getCurrentUser();
   return (
     <ResizablePanelGroup
       direction="horizontal"
@@ -30,7 +33,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         className="!basis-auto lg:!basis-0 hidden lg:block"
       >
         <ScrollArea className="h-[calc(100vh-95px)]">
-          <DashboardNav />
+          <DashboardNav user={user as TUser} />
         </ScrollArea>
       </ResizablePanel>
       <Drawer direction="left">
@@ -39,7 +42,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <Menu />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="w-[280px] mt-8">
+        <DrawerContent className="w-[280px] mt-8 rounded-none">
           <div>
             <DrawerHeader>
               <div className="flex justify-end">
@@ -52,9 +55,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <DrawerTitle className="hidden"></DrawerTitle>
               <DrawerDescription className="hidden"></DrawerDescription>
             </DrawerHeader>
-            <ScrollArea className="h-[calc(100vh-95px)] w-[280px] px-3">
+            <ScrollArea className="h-[calc(100vh-70px)] w-[280px] px-3">
               <div className="w-full">
-                <DashboardNav />
+                <DashboardNav user={user as TUser} />
               </div>
             </ScrollArea>
           </div>

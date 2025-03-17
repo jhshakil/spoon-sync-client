@@ -28,8 +28,6 @@ const AllGroupList = ({ joinGroup, disJoinGroup, userEmail }: Props) => {
     handleGroupCreate(values);
   };
 
-  console.log(joinGroup);
-
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
