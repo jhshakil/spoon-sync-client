@@ -4,7 +4,6 @@ import { envConfig } from "@/config/envConfig";
 import axiosInstance from "@/lib/axiosInstance";
 import { TGroup } from "@/types/group.type";
 import { revalidateTag } from "next/cache";
-import { toast } from "sonner";
 
 export const getAllDisJoinGroup = async (email: string): Promise<any> => {
   try {
@@ -107,5 +106,20 @@ export const getAllGroupPost = async ({
     return res.json();
   } catch (error: any) {
     throw new Error("Failed to get post");
+  }
+};
+
+export const updateGroup = async (payload: Partial<TGroup>): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.patch(
+      `/group/${payload._id}`,
+      payload
+    );
+
+    revalidateTag("groups");
+
+    return data;
+  } catch (error: any) {
+    console.log("Failed to update group", error.message);
   }
 };

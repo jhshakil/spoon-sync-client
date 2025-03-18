@@ -14,6 +14,8 @@ import {
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { TGroup } from "@/types/group.type";
+import UpdateGroupDialog from "./UpdateGroupDialog";
+import { useUpdateGroup } from "@/hooks/group.hook";
 
 type Props = {
   group: TGroup;
@@ -22,8 +24,15 @@ type Props = {
 };
 
 const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
+  const [isOpenUpdate, setIsOpenUpdate] = useState(false);
   const [isJoined, setIsJoined] = useState(true);
   //   const [isJoined, setIsJoined] = useState(group.isJoined);
+
+  const { mutate: handleGroupUpdate } = useUpdateGroup();
+
+  const handleUpdateGroup = (values: any) => {
+    handleGroupUpdate(values);
+  };
 
   const handleJoinLeave = () => {
     if (isJoined) {
@@ -56,6 +65,7 @@ const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
           size="icon"
           variant="secondary"
           className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm"
+          onClick={() => setIsOpenUpdate(true)}
         >
           <Pencil className="h-4 w-4" />
         </Button>
@@ -173,7 +183,7 @@ const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-t border-border px-4">
+      {/* <div className="border-t border-border px-4">
         <div className="flex space-x-4 overflow-x-auto">
           <Link
             href={`/groups/${group._id}`}
@@ -200,7 +210,14 @@ const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
             Media
           </Link>
         </div>
-      </div>
+      </div> */}
+
+      <UpdateGroupDialog
+        open={isOpenUpdate}
+        onOpenChange={setIsOpenUpdate}
+        onSubmit={handleUpdateGroup}
+        groupData={group}
+      />
     </div>
   );
 };

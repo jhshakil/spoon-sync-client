@@ -27,8 +27,6 @@ const Page = async ({ params }: Props) => {
 
   if (!user) return null;
 
-  console.log(group);
-
   // Fetch all followed users
   //   const { data: allFollowUser } = await getAllFollow(user?.email as string);
 

@@ -24,7 +24,6 @@ const AllGroupList = ({ joinGroup, disJoinGroup, userEmail }: Props) => {
   };
 
   const handleCreateGroup = (values: any) => {
-    console.log("Creating group with values:", values);
     handleGroupCreate(values);
   };
 
