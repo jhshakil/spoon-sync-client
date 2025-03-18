@@ -3,6 +3,7 @@ import { TUserData } from "./user.types";
 export type TPost = {
   _id?: string;
   userId?: TUserData | string;
+  groupId?: string;
   email: string;
   title: string;
   thumbnail: string;

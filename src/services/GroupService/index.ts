@@ -123,3 +123,22 @@ export const updateGroup = async (payload: Partial<TGroup>): Promise<any> => {
     console.log("Failed to update group", error.message);
   }
 };
+
+export const joinGroup = async (payload: {
+  email: string;
+  groupId: string;
+}): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.post(
+      `/group/${payload.groupId}/add-member`,
+      payload
+    );
+
+    revalidateTag("groups");
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    console.log("Failed to join member");
+  }
+};

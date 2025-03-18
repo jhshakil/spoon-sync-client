@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type Props = {
   groups: TGroup[];
-  onJoinGroup: (groupId: string) => void;
+  onJoinGroup: (groupId: string, status: string) => void;
   isJoined: boolean;
   userEmail: string;
 };
@@ -78,7 +78,9 @@ const GroupCard = ({ groups, onJoinGroup, isJoined, userEmail }: Props) => {
             <Button
               variant={isJoined ? "outline" : "default"}
               className="w-20"
-              onClick={() => onJoinGroup(group._id as string)}
+              onClick={() =>
+                onJoinGroup(group._id as string, isJoined ? "join" : "")
+              }
             >
               {isJoined ? "Leave" : "Join"}
             </Button>

@@ -7,7 +7,11 @@ import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import CreateGroupDialog from "./CreateGroupDialog";
-import { useCreateGroup } from "@/hooks/group.hook";
+import {
+  useCreateGroup,
+  useJoinGroup,
+  useLeaveGroup,
+} from "@/hooks/group.hook";
 
 type Props = {
   disJoinGroup: TGroup[];
@@ -18,9 +22,15 @@ type Props = {
 const AllGroupList = ({ joinGroup, disJoinGroup, userEmail }: Props) => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const { mutate: handleGroupCreate } = useCreateGroup();
+  const { mutate: handleGroupJoin } = useJoinGroup();
+  const { mutate: handleGroupLeave } = useLeaveGroup();
 
-  const handleJoinGroup = (groupId: string) => {
-    console.log(groupId);
+  const handleJoinGroup = (groupId: string, status: string) => {
+    if (status === "join") {
+      handleGroupLeave({ email: userEmail, groupId });
+    } else {
+      handleGroupJoin({ email: userEmail, groupId });
+    }
   };
 
   const handleCreateGroup = (values: any) => {

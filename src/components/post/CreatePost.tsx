@@ -26,9 +26,10 @@ type Tag = {
 type Props = {
   email: string;
   userId: string;
+  groupId?: string;
 };
 
-const CreatePost = ({ email, userId }: Props) => {
+const CreatePost = ({ email, userId, groupId = "" }: Props) => {
   const router = useRouter();
 
   const [content, setContent] = useState<string>("");
@@ -59,6 +60,7 @@ const CreatePost = ({ email, userId }: Props) => {
   const submit = async (status: TPostStatus) => {
     const data: TPost = {
       userId,
+      groupId,
       email,
       title: title,
       thumbnail: "",

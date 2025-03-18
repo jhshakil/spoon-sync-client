@@ -15,32 +15,56 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { TGroup } from "@/types/group.type";
 import UpdateGroupDialog from "./UpdateGroupDialog";
-import { useUpdateGroup } from "@/hooks/group.hook";
+import {
+  useJoinGroup,
+  useLeaveGroup,
+  useUpdateGroup,
+} from "@/hooks/group.hook";
+import { TUserData } from "@/types/user.types";
 
 type Props = {
   group: TGroup;
-  onJoin?: (groupId: string) => void;
+  userData: TUserData;
   onLeave?: (groupId: string) => void;
 };
 
-const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
+const GroupBanner = ({ group, userData, onLeave }: Props) => {
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
-  const [isJoined, setIsJoined] = useState(true);
-  //   const [isJoined, setIsJoined] = useState(group.isJoined);
 
   const { mutate: handleGroupUpdate } = useUpdateGroup();
+  const { mutate: handleGroupJoin } = useJoinGroup();
+  const { mutate: handleGroupLeave } = useLeaveGroup();
+
+  const isAdmin = () => {
+    const result = group?.admins?.find((el) => el._id === userData._id);
+    if (result) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const isJoined = () => {
+    const result = group?.members?.find((el) => el._id === userData._id);
+    if (result) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const handleUpdateGroup = (values: any) => {
     handleGroupUpdate(values);
   };
 
   const handleJoinLeave = () => {
-    if (isJoined) {
-      onLeave?.(group._id as string);
-      setIsJoined(false);
+    if (isJoined()) {
+      handleGroupLeave({
+        email: userData.email,
+        groupId: group?._id as string,
+      });
     } else {
-      onJoin?.(group._id as string);
-      setIsJoined(true);
+      handleGroupJoin({ email: userData.email, groupId: group?._id as string });
     }
   };
 
@@ -59,22 +83,21 @@ const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
           <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10" />
         )}
 
-        {/* Edit banner button (only for admins) */}
-        {/* {group.isAdmin && ( */}
-        <Button
-          size="icon"
-          variant="secondary"
-          className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm"
-          onClick={() => setIsOpenUpdate(true)}
-        >
-          <Pencil className="h-4 w-4" />
-        </Button>
-        {/* )} */}
+        {isAdmin() ? (
+          <Button
+            size="icon"
+            variant="secondary"
+            className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm"
+            onClick={() => setIsOpenUpdate(true)}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+        ) : (
+          ""
+        )}
       </div>
 
-      {/* Group Info Section */}
       <div className="p-4 relative">
-        {/* Logo/Avatar - positioned to overlap the banner */}
         <div className="absolute -top-16 left-6 ring-4 ring-background rounded-full">
           <Avatar
             className={cn("border-2 border-background w-[100px] h-[100px]")}
@@ -108,37 +131,7 @@ const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
           </div>
 
           <div className="flex items-start gap-3 mt-2 md:mt-0">
-            <>
-              <Link
-                href={`/groups/${group._id}/create-post`}
-                className={cn(buttonVariants())}
-              >
-                Create Post
-              </Link>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="secondary" size="icon">
-                    <EllipsisVertical />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[160px]">
-                  <DropdownMenuItem asChild>
-                    <Link href={`/groups/${group._id}/edit`}>Edit Group</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href={`/groups/${group._id}/members`}>
-                      Manage Members
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href={`/groups/${group._id}/settings`}>
-                      Group Settings
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-            {/* {group.isAdmin ? (
+            {isAdmin() ? (
               <>
                 <Link
                   href={`/groups/${group._id}/create-post`}
@@ -170,14 +163,26 @@ const GroupBanner = ({ group, onJoin, onLeave }: Props) => {
                 </DropdownMenu>
               </>
             ) : (
-              <Button
-                variant={isJoined ? "outline" : "default"}
-                onClick={handleJoinLeave}
-                className="min-w-[100px]"
-              >
-                {isJoined ? "Leave" : "Join"}
-              </Button>
-            )} */}
+              <>
+                {isJoined() ? (
+                  <Link
+                    href={`/groups/${group._id}/create-post`}
+                    className={cn(buttonVariants())}
+                  >
+                    Create Post
+                  </Link>
+                ) : (
+                  ""
+                )}
+                <Button
+                  variant={isJoined() ? "outline" : "default"}
+                  onClick={handleJoinLeave}
+                  className="min-w-[100px]"
+                >
+                  {isJoined() ? "Leave" : "Join"}
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
