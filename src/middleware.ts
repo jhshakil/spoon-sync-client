@@ -5,22 +5,6 @@ import { getCurrentUser } from "./services/AuthService";
 // Routes that do not require authentication
 const AuthRoutes = ["/login", "/registration"];
 
-// Routes that require authentication but are not role-based
-const GeneralAuthenticatedRoutes = [
-  "/",
-  "/about-us",
-  "/contact-us",
-  "/post",
-  "/terms-and-conditions",
-  "/privacy-policy",
-  "/all-user",
-  "/all-group",
-  /^\/group\/[^/]+$/, // Regex for dynamic routes like /all-group/:id
-  /^\/post(\/[^/]+)?$/, // Regex for dynamic routes like /post/:id
-];
-
-type Role = keyof typeof roleBaseRoutes;
-
 // Role-based access control for specific routes
 const roleBaseRoutes = {
   user: [/^\/user/],
@@ -32,6 +16,9 @@ const roleBaseRoutes = {
     /^\/admin\/admin-list/,
   ],
 };
+
+// Define the Role type based on the keys of roleBaseRoutes
+type Role = keyof typeof roleBaseRoutes;
 
 // Helper function to check if the path is a static file
 const isStaticFile = (pathname: string) => {
@@ -71,17 +58,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // Allow access to general authenticated routes
-    const isGeneralAuthenticatedRoute = GeneralAuthenticatedRoutes.some(
-      (route) =>
-        typeof route === "string" ? route === pathname : route.test(pathname)
-    );
-
-    if (isGeneralAuthenticatedRoute) {
-      return NextResponse.next();
-    }
-
-    // Validate role-based access
+    // Validate role-based access for specific routes
     if (user.role && roleBaseRoutes[user.role as Role]) {
       const allowedRoutes = roleBaseRoutes[user.role as Role];
 
@@ -91,13 +68,8 @@ export async function middleware(request: NextRequest) {
       }
     }
 
-    // Log unauthorized access attempts
-    console.warn(
-      `Unauthorized access attempt to ${pathname} by user with role ${user.role}`
-    );
-
-    // Redirect unauthorized users to the home page
-    return NextResponse.redirect(new URL("/", request.url));
+    // If the route is not role-based, allow access to authenticated users
+    return NextResponse.next();
   } catch (error) {
     // Handle any errors that occur during authentication
     console.error("Middleware authentication error:", error);

@@ -25,10 +25,9 @@ import { TUserData } from "@/types/user.types";
 type Props = {
   group: TGroup;
   userData: TUserData;
-  onLeave?: (groupId: string) => void;
 };
 
-const GroupBanner = ({ group, userData, onLeave }: Props) => {
+const GroupBanner = ({ group, userData }: Props) => {
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
   const { mutate: handleGroupUpdate } = useUpdateGroup();
@@ -123,18 +122,18 @@ const GroupBanner = ({ group, userData, onLeave }: Props) => {
               <span>{group.members.length} members</span>
             </div>
 
-            {group.description && (
+            {/* {group.description && (
               <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
                 {group.description}
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="flex items-start gap-3 mt-2 md:mt-0">
             {isAdmin() ? (
               <>
                 <Link
-                  href={`/groups/${group._id}/create-post`}
+                  href={`/group/${group._id}/create-post`}
                   className={cn(buttonVariants())}
                 >
                   Create Post
